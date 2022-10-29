@@ -9,27 +9,21 @@ class User(BaseModel):
     email:str
     password:str
     group: int
-    acq: Optional[str]
-    contract: Optional[str]
-    sup: Optional[str]
+
     
 class UserUpdateAdmin(BaseModel):
     name:str
     surname: str
     email:str
     group: int
-    acq: Optional[str]
-    contract: Optional[str]
-    sup: Optional[str]
+
 
 class ShowUser(BaseModel):
     name:str
     surname: str
     email:str
     group: int
-    acq: Optional[str]
-    contract: Optional[str]
-    sup: Optional[str]
+
     
     class Config():
         orm_mode = True
