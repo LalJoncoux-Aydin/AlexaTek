@@ -44,3 +44,28 @@ class ShowToken(BaseModel):
 
     class Config():
         orm_mode = True
+
+
+class Module(BaseModel):
+    id: str
+    module: str
+
+class ShowModule(BaseModel):
+    module: List[Module]
+
+    class Config():
+        orm_mode = True
+        
+
+class Action(BaseModel):
+    id: str
+    args: List[str]
+    
+class StatusRGB(BaseModel):
+    on: bool
+    r: int
+    g: int
+    b: int
+    
+    class config():
+        orm_mode = True
