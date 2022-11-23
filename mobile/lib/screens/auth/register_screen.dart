@@ -50,40 +50,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: Column(
                   children: <Widget>[
                     const HeaderLoginRegister(),
-                    CustomTextFormField(
-                      hintText: 'Enter your email',
-                      textEditingController: _emailController,
-                      isPass: false,
-                      isValid: emailIsValid(email),
-                      updateInput: updateEmail,
-                    ),
-                    CustomTextFormField(
-                      hintText: 'Enter your password',
-                      textEditingController: _passwordController,
-                      isPass: true,
-                      isValid: passwordIsValid(password1),
-                      updateInput: updatePassword,
-                    ),
-                    CustomTextFormField(
-                      hintText: 'Enter your password again',
-                      textEditingController: _passwordController2,
-                      isPass: true,
-                      isValid: password2IsValid(password1, password2),
-                      updateInput: updatePassword2,
-                    ),
+                    CustomTextFormField(hintText: 'Enter your email', textEditingController: _emailController, isPass: false, isValid: emailIsValid(email), updateInput: updateEmail,),
+                    CustomTextFormField(hintText: 'Enter your password', textEditingController: _passwordController, isPass: true, isValid: passwordIsValid(password1), updateInput: updatePassword,),
+                    CustomTextFormField(hintText: 'Enter your password again', textEditingController: _passwordController2, isPass: true, isValid: password2IsValid(password1, password2), updateInput: updatePassword2,),
                     if (errorText != "") CustomErrorText(displayStr: errorText),
-                    CustomValidationButton(
-                      displayText: 'Register',
-                      formKey: formKey,
-                      loadingState: _isLoading,
-                      onTapFunction: nextStepRegister,
-                      buttonColor: mainColor,
-                    ),
-                    CustomNavLink(
-                      displayText1: "Already have an account ?",
-                      displayText2: "Login",
-                      onTapFunction: navigateToLogin,
-                    ),
+                    CustomValidationButton(displayText: 'Register', formKey: formKey, loadingState: _isLoading, onTapFunction: nextStepRegister, buttonColor: mainColor,),
+                    CustomNavLink(displayText1: "Already have an account ?", displayText2: "Login", onTapFunction: navigateToLogin,),
                   ],
                 ),
               ),
@@ -144,30 +116,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
       setState(() {
         _isLoading = true;
       });
-      if (!await AuthMethods().emailDoesntExist(_emailController.text)) {
-        setState(() {
-          errorText = "Email is already in use by another account";
-        });
-        setState(() {
-          _isLoading = false;
-        });
-        return;
-      }
+
+      // Go to second page of Register
+      var res = await AuthMethods().registerUser(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
       setState(() {
         _isLoading = false;
       });
 
-      if (!mounted) return;
-      // Go to second page of Register
-      await AuthMethods().registerUser(
-        email: _emailController.text,
-        password: _passwordController.text,
-      );
-      await Navigator.of(context!).pushReplacement(
-        MaterialPageRoute<dynamic>(
-          builder: (BuildContext context) => const ScreenLayout(),
-        )
-      );
+      if (res == "Success") {
+        await Navigator.of(context!).pushReplacement(
+            MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => const ScreenLayout(),
+            )
+        );
+      }
     }
   }
 

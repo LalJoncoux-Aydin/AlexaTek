@@ -39,7 +39,7 @@ class CustomDeleteButton extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 12),
             decoration: decorationButton,
             child: !loadingState
-                ? Text(displayText, style: const TextStyle(color: whiteColor))
+                ? Text(displayText, style: const TextStyle(color: primaryColor))
                 : const CircularProgressIndicator(color: primaryColor),
           ),
         ),

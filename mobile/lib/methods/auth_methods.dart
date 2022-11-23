@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:alexatek/methods/storage_methods.dart';
 import 'package:alexatek/models/user.dart' as model;
 
 class AuthMethods {
@@ -9,11 +8,18 @@ class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<model.User?> getUserDetails() async {
-    final User currentUser = _auth.currentUser!;
+/*    final User currentUser = _auth.currentUser!;
 
     final DocumentSnapshot<Object?> documentSnapshot =
         await _firestore.collection('users').doc(currentUser.uid).get();
-    return model.User.fromSnap(documentSnapshot);
+    return model.User.fromSnap(documentSnapshot);*/
+    var uid = "tutu";
+    var email = "tutu@tutu.com";
+    final model.User user = model.User(
+      uid: uid,
+      email: email,
+    );
+    return user;
   }
 
   Future<model.User?> getSpecificUserDetails(String uid) async {
@@ -84,26 +90,17 @@ class AuthMethods {
   }) async {
     String res = "Internal unknown error.";
     try {
-      if (email.isNotEmpty &&
-          password.isNotEmpty) {
-        final UserCredential cred = await _auth.createUserWithEmailAndPassword(email: email, password: password,);
-
+      if (email.isNotEmpty && password.isNotEmpty) {
+        var uid = "tutu";
         final model.User user = model.User(
-          uid: cred.user!.uid,
+          uid: uid,
           email: email,
         );
-
-        await _firestore
-            .collection("users")
-            .doc(cred.user!.uid)
-            .set(user.toJson());
 
         res = "Success";
       } else {
         res = "Please enter all the fields";
       }
-    } on FirebaseAuthException catch (err) {
-      res = err.code;
     } catch (err) {
       res = err.toString();
     }
@@ -158,12 +155,6 @@ class AuthMethods {
             .collection('users')
             .doc(currentUser.uid)
             .update(<String, String?>{'bio': bio});
-        res = "Success";
-      }
-      if (profilePicture != null) {
-        final String avatarUrl = await StorageMethods()
-            .uploadImageToStorage('profilePics', profilePicture, false);
-        await currentUser.updatePhotoURL(avatarUrl);
         res = "Success";
       }
       if (username == "" && bio == "") {
