@@ -9,27 +9,21 @@ class User(BaseModel):
     email:str
     password:str
     group: int
-    acq: Optional[str]
-    contract: Optional[str]
-    sup: Optional[str]
+
     
 class UserUpdateAdmin(BaseModel):
     name:str
     surname: str
     email:str
     group: int
-    acq: Optional[str]
-    contract: Optional[str]
-    sup: Optional[str]
+
 
 class ShowUser(BaseModel):
     name:str
     surname: str
     email:str
     group: int
-    acq: Optional[str]
-    contract: Optional[str]
-    sup: Optional[str]
+
     
     class Config():
         orm_mode = True
@@ -49,4 +43,29 @@ class ShowToken(BaseModel):
     token:str
 
     class Config():
+        orm_mode = True
+
+
+class Module(BaseModel):
+    id: str
+    module: str
+
+class ShowModule(BaseModel):
+    module: List[Module]
+
+    class Config():
+        orm_mode = True
+        
+
+class Action(BaseModel):
+    id: str
+    args: List[str]
+    
+class StatusRGB(BaseModel):
+    on: bool
+    r: int
+    g: int
+    b: int
+    
+    class config():
         orm_mode = True

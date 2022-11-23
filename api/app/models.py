@@ -11,9 +11,6 @@ class User(Base):
     email           = Column(String)
     password        = Column(String)
     group           = Column(Integer)
-    acq             = Column(String)
-    contract        = Column(String)
-    sup             = Column(String)
 
 
 
