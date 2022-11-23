@@ -1,4 +1,4 @@
-package com.example.instatek;
+package com.example.alexatek;
 
 import io.flutter.embedding.android.FlutterActivity;
 

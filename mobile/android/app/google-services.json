@@ -1,15 +1,15 @@
 {
   "project_info": {
     "project_number": "254429523809",
-    "project_id": "instatek-6fa75",
-    "storage_bucket": "instatek-6fa75.appspot.com"
+    "project_id": "alexatek-6fa75",
+    "storage_bucket": "alexatek-6fa75.appspot.com"
   },
   "client": [
     {
       "client_info": {
         "mobilesdk_app_id": "1:254429523809:android:236ea3b2151011890d5f20",
         "android_client_info": {
-          "package_name": "com.example.instatek"
+          "package_name": "com.example.alexatek"
         }
       },
       "oauth_client": [
@@ -34,7 +34,7 @@
               "client_id": "254429523809-mo3bgshri0iol381q1livj50ob7nva9e.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.instatek"
+                "bundle_id": "com.example.alexatek"
               }
             }
           ]

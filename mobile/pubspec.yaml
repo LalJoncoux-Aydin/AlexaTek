@@ -1,5 +1,5 @@
-name: instatek
-description: Instatek projet tech 5
+name: alexatek
+description: alexatek projet tech 5
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -56,8 +56,7 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  assets:
-    - assets/instatek_logo.svg
+  #assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see

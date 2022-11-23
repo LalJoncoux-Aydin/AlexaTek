@@ -1,11 +1,11 @@
 {
-    "name": "instatek",
-    "short_name": "instatek",
+    "name": "alexatek",
+    "short_name": "alexatek",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "Instatek projet tech 5",
+    "description": "alexatek projet tech 5",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
