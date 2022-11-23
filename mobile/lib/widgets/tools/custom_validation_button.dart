@@ -1,6 +1,5 @@
+import 'package:alexatek/utils/colors.dart';
 import 'package:flutter/material.dart';
-
-import '../../utils/global_variables.dart';
 
 class CustomValidationButton extends StatelessWidget {
   const CustomValidationButton({
@@ -21,7 +20,7 @@ class CustomValidationButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 10),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
@@ -35,8 +34,8 @@ class CustomValidationButton extends StatelessWidget {
           alignment: Alignment.center,
           padding: const EdgeInsets.symmetric(vertical: 12),
           child: !loadingState
-              ? Text(displayText, style: Theme.of(context).textTheme.button)
-              : CircularProgressIndicator(color: Theme.of(context).colorScheme.primary),
+              ? Text(displayText, style: const TextStyle(color: primaryColor))
+              : const CircularProgressIndicator(color: primaryColor),
         ),
       ),
     );

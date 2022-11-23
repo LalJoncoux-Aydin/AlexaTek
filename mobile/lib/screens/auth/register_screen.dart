@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:alexatek/screens/auth/login_screen.dart';
 
 import '../../methods/auth_methods.dart';
+import '../../utils/colors.dart';
 import '../../widgets/auth/custom_nav_link_widget.dart';
 import '../../widgets/auth/header_login_register.dart';
 import '../../widgets/tools/custom_error_text_widget.dart';
@@ -76,7 +77,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       formKey: formKey,
                       loadingState: _isLoading,
                       onTapFunction: nextStepRegister,
-                      buttonColor: Theme.of(context).colorScheme.tertiary,
+                      buttonColor: mainColor,
                     ),
                     CustomNavLink(
                       displayText1: "Already have an account ?",

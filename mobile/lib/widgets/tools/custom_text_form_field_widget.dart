@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../utils/colors.dart';
+
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     Key? key,
@@ -28,12 +30,12 @@ class CustomTextFormField extends StatelessWidget {
           validator: (String? value) {
             return isValid;
           },
-          cursorColor: Theme.of(context).colorScheme.tertiary,
+          cursorColor: mainColor,
           controller: textEditingController,
           onChanged: (String changedText) => updateInput(changedText),
           decoration: InputDecoration(
             hintText: hintText,
-            hintStyle: Theme.of(context).textTheme.subtitle1,
+            hintStyle: const TextStyle(color: thirdColor),
             border: inputBorder,
             focusedBorder: inputBorder,
             enabledBorder: inputBorder,

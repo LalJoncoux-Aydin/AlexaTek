@@ -10,7 +10,9 @@ class HeaderLoginRegister extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(bottom: 30),
-      child: const Text("AlexaTek"),
+      child: const Text("AlexaTek", style: TextStyle(
+        fontSize: 35,
+      ),),
     );
   }
 }

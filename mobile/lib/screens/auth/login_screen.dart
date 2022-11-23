@@ -8,6 +8,7 @@ import '../../widgets/auth/custom_nav_link_widget.dart';
 import '../../widgets/auth/header_login_register.dart';
 import '../../widgets/tools/custom_text_form_field_widget.dart';
 import '../../widgets/tools/custom_validation_button.dart';
+import '../../utils/colors.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -49,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     CustomTextFormField(hintText: 'Enter your email', textEditingController: _emailController, isPass: false, isValid: emailIsValid(email), updateInput: updateEmail),
                     CustomTextFormField(hintText: 'Enter your password', textEditingController: _passwordController, isPass: true, isValid: passwordIsValid(password), updateInput: updatePassword),
                     if (errorText != "") CustomErrorText(displayStr: errorText),
-                    CustomValidationButton(displayText: 'Login', formKey: formKey, loadingState: _isLoading, onTapFunction: loginUser, buttonColor: Theme.of(context).colorScheme.tertiary),
+                    CustomValidationButton(displayText: 'Login', formKey: formKey, loadingState: _isLoading, onTapFunction: loginUser, buttonColor: mainColor),
                     CustomNavLink(displayText1: "Don't have an account ?", displayText2: "Register", onTapFunction: navigateToRegister),
                   ],
                 ),
