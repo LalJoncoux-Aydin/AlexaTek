@@ -105,14 +105,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
       // if res is Success, go to next page
       if (res == "Success") {
-        if (!mounted) return;
         await Navigator.of(context!).push(
           MaterialPageRoute<dynamic>(
             builder: (BuildContext context) => const ScreenLayout(),
           ),
         );
       }
-      else if (res == "user-not-found" || res == "wrong-password") {
+      else if (res == "wrong-credential") {
         setState(() {
           errorText = "Your credentials are not matching.";
         });
@@ -122,10 +121,6 @@ class _LoginScreenState extends State<LoginScreen> {
           errorText = "A server error happened : $res";
         });
       }
-    } else {
-      setState(() {
-        errorText = "";
-      });
     }
   }
 

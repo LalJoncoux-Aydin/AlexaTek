@@ -132,6 +132,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
               builder: (BuildContext context) => const ScreenLayout(),
             )
         );
+      } else {
+        setState(() {
+          errorText = "A server error happened : $res";
+        });
       }
     }
   }
