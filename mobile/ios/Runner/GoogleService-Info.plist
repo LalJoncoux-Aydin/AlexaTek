@@ -13,11 +13,11 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.instatek</string>
+	<string>com.example.alexatek</string>
 	<key>PROJECT_ID</key>
-	<string>instatek-6fa75</string>
+	<string>alexatek-6fa75</string>
 	<key>STORAGE_BUCKET</key>
-	<string>instatek-6fa75.appspot.com</string>
+	<string>alexatek-6fa75.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>

@@ -2,8 +2,8 @@ import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:instatek/models/user.dart' as model;
-import 'package:instatek/resources/storage_methods.dart';
+import 'package:alexatek/models/user.dart' as model;
+import 'package:alexatek/resources/storage_methods.dart';
 
 class AuthMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -27,16 +27,9 @@ class AuthMethods {
     String res = "Internal unknown error.";
     try {
       if (email.isNotEmpty && password.isNotEmpty && username.isNotEmpty && bio.isNotEmpty) {
-       // UserCredential cred = await _auth.createUserWithEmailAndPassword(email: email, password: password);
-       // String photoUrl = await StorageMethods().uploadImageToStorage('profilePics', profilePicture, false);
-
         model.User user = model.User(
-          username: username,
           uid: "1",
           email: email,
-          bio: bio,
-          followers: [],
-          following: [],
         );
 
     //    await _firestore.collection("users").doc(cred.user!.uid).set(user.toJson());

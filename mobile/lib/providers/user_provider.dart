@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:instatek/models/user.dart';
-import 'package:instatek/resources/auth_methods.dart';
+import 'package:alexatek/methods/auth_methods.dart';
+import 'package:alexatek/models/user.dart';
 
 class UserProvider with ChangeNotifier {
-  User? _user;
+  late User _user;
   final AuthMethods _authMethods = AuthMethods();
+  late bool isUser = false;
 
-  User get getUser => _user!;
+  User get getUser => _user;
 
   Future<void> refreshUser() async {
-    // To change
-    User? user = _user;
-    _user = user;
-    notifyListeners();
+    final User? user = await _authMethods.getUserDetails();
+    if (user != null) {
+      _user = user;
+      notifyListeners();
+      isUser = true;
+    } else {
+      isUser = false;
+    }
   }
 }

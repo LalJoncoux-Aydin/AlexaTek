@@ -1,18 +1,20 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-pickImage(ImageSource source) async {
-  final ImagePicker _imagePicker = ImagePicker();
+Future<Uint8List> pickImage(ImageSource source) async {
+  final ImagePicker imagePicker = ImagePicker();
 
-  XFile? _file = await _imagePicker.pickImage(source: source);
+  final XFile? file = await imagePicker.pickImage(source: source);
 
-  if (_file != null) {
-    return await _file.readAsBytes();
+  if (file != null) {
+    return file.readAsBytes();
   }
-  print('No image selected');
+  debugPrint('No image selected');
+  return Future<Uint8List>.value(Uint8List(0));
 }
 
-showSnackBar(BuildContext context, String text) {
+ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar(BuildContext context, String text) {
   return ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Text(text),
