@@ -51,12 +51,7 @@ class _ObjectScreenState extends State<ObjectScreen> {
               width: double.infinity,
               child: Column(
                 children: <Widget>[
-                  Row(
-                    children: const <Widget>[
-                      Text("Your objects"),
-                      Icon(Icons.add),
-                    ],
-                  ),
+                  Text("Your objects"),
                   CustomObjectListWidget(listObj: listObj),
                 ],
               ),

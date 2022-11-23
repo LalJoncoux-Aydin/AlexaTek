@@ -49,12 +49,7 @@ class _CollectionScreenState extends State<CollectionScreen> {
             width: double.infinity,
             child: Column(
               children: <Widget>[
-                Row(
-                  children: const <Widget>[
-                    Text("Your collections"),
-                    Icon(Icons.add),
-                  ],
-                ),
+                Text("Your collections"),
                 CustomCollectionListWidget(listCollection: listColl),
               ],
             ),
