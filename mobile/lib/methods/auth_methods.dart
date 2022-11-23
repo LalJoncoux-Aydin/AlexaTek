@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:alexatek/models/collection_objects.dart';
 import 'package:alexatek/models/connected_objects.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,10 +25,17 @@ class AuthMethods {
     listObj.add(obj4);
     listObj.add(obj5);
 
+    CollectionObjects coll1 = CollectionObjects(name: "Collection 1", uid: "tutu 1", listObject: listObj);
+    CollectionObjects coll2 = CollectionObjects(name: "Collection 2", uid: "tutu 2", listObject: listObj);
+    List<CollectionObjects> listCollection = <CollectionObjects>[];
+    listCollection.add(coll1);
+    listCollection.add(coll2);
+
     final model.User user = model.User(
       uid: uid,
       email: email,
       listObject: listObj,
+      listCollection: listCollection,
     );
     return user;
   }

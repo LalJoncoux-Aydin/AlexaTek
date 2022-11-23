@@ -1,12 +1,12 @@
+import 'package:alexatek/models/collection_objects.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../models/connected_objects.dart';
 import '../utils/colors.dart';
 
-class CustomObjectListWidget extends StatelessWidget {
-  const CustomObjectListWidget({Key? key, required this.listObj}) : super(key: key);
+class CustomCollectionListWidget extends StatelessWidget {
+  const CustomCollectionListWidget({Key? key, required this.listCollection}) : super(key: key);
 
-  final List<ConnectedObjects> listObj;
+  final List<CollectionObjects> listCollection;
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +19,9 @@ class CustomObjectListWidget extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (BuildContext ctx, int index) => Container(
           margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-          child: Text(listObj[index].name),
+          child: Text(listCollection[index].name),
         ),
-        itemCount: listObj.length,
+        itemCount: listCollection.length,
       ),
     );
   }
