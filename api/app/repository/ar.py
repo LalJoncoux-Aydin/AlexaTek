@@ -9,6 +9,9 @@ import os
 TIMEOUT = 4
 MAIN_LOGFILE = "main.log"
 
+MODULE_LIST = [{"id": 1, "name": "led"}, {"id": 2, "name": "rgb"}, {"id": 3, "name": "servo1"}, {"id": 4, "name": "servo2"}]
+
+
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc), flush=True)
 
@@ -62,7 +65,7 @@ def on_message_action(client, userdata, msg):
         
 
 def get_module():
-    return {"modules": [{"1": "led"}, {"2":"rgb"}, {"3":"servo 1"},{"4":"servo 2"}]}
+    return {"modules": MODULE_LIST}
 
 
 def get_lumos():

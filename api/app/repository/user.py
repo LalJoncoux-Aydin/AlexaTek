@@ -9,7 +9,7 @@ from app.hashing import Hash
 class UserRepository:
     def create(request: schemas.User, db: Session):
         new_user = models.User(
-            name=request.name, surname=request.surname, email=request.email, password=Hash.bcrypt(request.password), group=request.group, acq=request.acq, contract=request.contract, sup=request.sup)
+            name=request.name, surname=request.surname, email=request.email, password=Hash.bcrypt(request.password), group=request.group)
         db.add(new_user)
         db.commit()
         db.refresh(new_user)
@@ -46,7 +46,7 @@ class UserRepository:
         user = db.query(models.User).filter(models.User.email == request.email).first()
         if not user:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
-        db.query(models.User).filter(models.User.email == email).update({"name": request.name, "surname": request.surname, "email": request.email, "group": request.group, "acq": request.acq, "contract": request.contract, "sup": request.sup})
+        db.query(models.User).filter(models.User.email == email).update({"name": request.name, "surname": request.surname, "email": request.email, "group": request.group})
         db.commit()
         return {"message": "User updated"}
     
