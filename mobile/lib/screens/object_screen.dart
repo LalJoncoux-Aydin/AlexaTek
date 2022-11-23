@@ -1,24 +1,22 @@
-import 'package:alexatek/models/connected_objects.dart';
-import 'package:alexatek/widgets/custom_object_list_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'package:alexatek/models/user.dart' as model;
+import 'package:provider/provider.dart';
+import '../models/connected_objects.dart';
 import '../providers/user_provider.dart';
-import '../widgets/tools/custom_loading_screen.dart';
+import '../widgets/custom_object_list_widget.dart';
 
-class FeedScreen extends StatefulWidget {
-  const FeedScreen({Key? key}) : super(key: key);
+class ObjectScreen extends StatefulWidget {
+  const ObjectScreen({Key? key}) : super(key: key);
 
   @override
-  State<FeedScreen> createState() => _FeedScreenState();
+  State<ObjectScreen> createState() => _ObjectScreenState();
 }
 
-class _FeedScreenState extends State<FeedScreen> {
+class _ObjectScreenState extends State<ObjectScreen> {
   late UserProvider userProvider;
   late model.User myUser;
   late List<ConnectedObjects> listObj = <ConnectedObjects>[];
-  late bool _isLoadingUser = true;
 
   @override
   void initState() {
@@ -33,20 +31,17 @@ class _FeedScreenState extends State<FeedScreen> {
       setState(() {
         myUser = userProvider.getUser;
         listObj = myUser.listObject;
-        _isLoadingUser = false;
       });
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
-/*    if (_isLoadingUser == false) {
-      return const CustomLoadingScreen();
-    } else {*/
-      return Scaffold(
+    return Scaffold(
         appBar: AppBar(
           centerTitle: false,
-          title: const Text("Home"),
+          title: const Text("Objects"),
           automaticallyImplyLeading: false,
         ),
         body: SafeArea(
@@ -56,15 +51,18 @@ class _FeedScreenState extends State<FeedScreen> {
               width: double.infinity,
               child: Column(
                 children: <Widget>[
-                  const Text("Welcome John !"),
+                  Row(
+                    children: const <Widget>[
+                      Text("Your objects"),
+                      Icon(Icons.add),
+                    ],
+                  ),
                   CustomObjectListWidget(listObj: listObj),
                 ],
               ),
             ),
-            //CustomObjectListWidget(listObj: listObj),
           ),
         )
-      );
- //   }
+    );
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:alexatek/models/connected_objects.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:alexatek/models/user.dart' as model;
@@ -8,33 +9,42 @@ class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<model.User?> getUserDetails() async {
-/*    final User currentUser = _auth.currentUser!;
-
-    final DocumentSnapshot<Object?> documentSnapshot =
-        await _firestore.collection('users').doc(currentUser.uid).get();
-    return model.User.fromSnap(documentSnapshot);*/
     var uid = "tutu";
     var email = "tutu@tutu.com";
+
+    ConnectedObjects obj1 = const ConnectedObjects(name: "lampe 1", uid: "tutu 1", type: "lampe");
+    ConnectedObjects obj2 = const ConnectedObjects(name: "porte 1", uid: "tutu 1", type: "porte");
+    ConnectedObjects obj3 = const ConnectedObjects(name: "lampe 2", uid: "tutu 1", type: "lampe");
+    ConnectedObjects obj4 = const ConnectedObjects(name: "lampe 3", uid: "tutu 1", type: "lampe");
+    ConnectedObjects obj5 = const ConnectedObjects(name: "thermometre 1", uid: "tutu 1", type: "thermo");
+    List<ConnectedObjects> listObj = <ConnectedObjects>[];
+    listObj.add(obj1);
+    listObj.add(obj2);
+    listObj.add(obj3);
+    listObj.add(obj4);
+    listObj.add(obj5);
+
     final model.User user = model.User(
       uid: uid,
       email: email,
+      listObject: listObj,
     );
     return user;
   }
 
-  Future<model.User?> getSpecificUserDetails(String uid) async {
+/*  Future<model.User?> getSpecificUserDetails(String uid) async {
     final DocumentSnapshot<Object?> documentSnapshot =
         await _firestore.collection('users').doc(uid).get();
     return model.User.fromSnap(documentSnapshot);
-  }
+  }*/
 
-  Future<List<model.User>?> getUserListByUsername(String username) async {
+/*  Future<List<model.User>?> getUserListByUsername(String username) async {
     final QuerySnapshot<Map<String, dynamic>> documentSnapshot = await _firestore.collection('users').where('username', isEqualTo: username).get();
-    List<model.User> listUser = documentSnapshot.docs.map((QueryDocumentSnapshot<Map<String, dynamic>> doc) => model.User.fromSnap(doc)).toList();
+    //List<model.User> listUser = documentSnapshot.docs.map((QueryDocumentSnapshot<Map<String, dynamic>> doc) => model.User.fromSnap(doc)).toList();
     //listUser.sort((model.User a, model.User b) => a.username.compareTo(b.username));
     listUser = listUser.reversed.toList();
     return listUser;
-  }
+  }*/
 
   Future<bool> usernameDoesntExist(dynamic username) async {
     final QuerySnapshot<Object?> querySnapshot =
@@ -91,11 +101,7 @@ class AuthMethods {
     String res = "Internal unknown error.";
     try {
       if (email.isNotEmpty && password.isNotEmpty) {
-        var uid = "tutu";
-        final model.User user = model.User(
-          uid: uid,
-          email: email,
-        );
+        // TODO: Register User
 
         res = "Success";
       } else {
@@ -114,11 +120,7 @@ class AuthMethods {
     String res = "Credentials are incorrect.";
     try {
       if (email.isNotEmpty && password.isNotEmpty) {
-        var uid = "tutu";
-        final model.User user = model.User(
-          uid: uid,
-          email: email,
-        );
+        // TODO: Login User
 
         res = "Success";
       } else {
