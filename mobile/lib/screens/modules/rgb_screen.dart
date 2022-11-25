@@ -44,7 +44,6 @@ class _RgbScreenState extends State<RgbScreen> {
                 Text("Rgb"),
                 Icon(Icons.light_mode),
                 Text("0-255, 0-255, 0-255"),
-                Text("0-1024"),
               ],
             ),
           ),
