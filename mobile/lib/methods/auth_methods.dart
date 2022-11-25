@@ -16,29 +16,32 @@ class AuthMethods {
         'X-API-KEY': token
       },
     );
+    if (response.statusCode == 200) {
+      Module obj1 = const Module(name: "lampe 1", id: 1);
+      Module obj2 = const Module(name: "porte 1", id: 2);
+      Module obj3 = const Module(name: "lampe 2", id: 3);
+      Module obj4 = const Module(name: "lampe 3", id: 4);
+      Module obj5 = const Module(name: "thermometre 1", id: 5);
+      List<Module> listObj = <Module>[];
+      listObj.add(obj1);
+      listObj.add(obj2);
+      listObj.add(obj3);
+      listObj.add(obj4);
+      listObj.add(obj5);
 
-    Module obj1 = const Module(name: "lampe 1", id: 1);
-    Module obj2 = const Module(name: "porte 1", id: 2);
-    Module obj3 = const Module(name: "lampe 2", id: 3);
-    Module obj4 = const Module(name: "lampe 3", id: 4);
-    Module obj5 = const Module(name: "thermometre 1", id: 5);
-    List<Module> listObj = <Module>[];
-    listObj.add(obj1);
-    listObj.add(obj2);
-    listObj.add(obj3);
-    listObj.add(obj4);
-    listObj.add(obj5);
+      CollectionObjects coll1 = CollectionObjects(name: "Collection 1", uid: "tutu 1", listObject: listObj);
+      CollectionObjects coll2 = CollectionObjects(name: "Collection 2", uid: "tutu 2", listObject: listObj);
+      List<CollectionObjects> listCollection = <CollectionObjects>[];
+      listCollection.add(coll1);
+      listCollection.add(coll2);
 
-    CollectionObjects coll1 = CollectionObjects(name: "Collection 1", uid: "tutu 1", listObject: listObj);
-    CollectionObjects coll2 = CollectionObjects(name: "Collection 2", uid: "tutu 2", listObject: listObj);
-    List<CollectionObjects> listCollection = <CollectionObjects>[];
-    listCollection.add(coll1);
-    listCollection.add(coll2);
+      final User user = User.fromJson(jsonDecode(response.body));
+      user.setUserCollection(listCollection);
 
-    final User user = User.fromJson(jsonDecode(response.body));
-    user.setUserCollection(listCollection);
-
-    return user;
+      return user;
+    } else {
+      return null;
+    }
   }
 
   Future<List<Module>> getModules(String token) async {
@@ -127,6 +130,10 @@ class AuthMethods {
       res = "server-error";
     }
     return res;
+  }
+
+  void authStateChanges() {
+
   }
 /*
   Future<String> updateUser({

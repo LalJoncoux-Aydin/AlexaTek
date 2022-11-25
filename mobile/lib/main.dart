@@ -1,7 +1,8 @@
+import 'package:alexatek/methods/auth_methods.dart';
+import 'package:alexatek/screens/feed_screen.dart';
 import 'package:alexatek/utils/colors.dart';
 import 'package:alexatek/widgets/tools/custom_loading_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:alexatek/providers/theme_provider.dart';
 import 'package:alexatek/providers/user_provider.dart';
 import 'package:alexatek/screens/auth/login_screen.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +32,9 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           color: backgroundColor,
           title: 'Alexatek',
-          home: LoginScreen(),
+          home: ScreenLayout(
+            loginScreen: LoginScreen(),
+          ),
         );
       },
     );
