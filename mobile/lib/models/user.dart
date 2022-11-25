@@ -3,29 +3,28 @@ import 'package:alexatek/models/collection_objects.dart';
 import 'connected_objects.dart';
 
 class User {
-  const User({
-    required this.email,
-    required this.uid,
-    required this.listObject,
-    required this.listCollection,
-  });
+  final String name;
+  final String surname;
   final String email;
-  final String uid;
-  final List<ConnectedObjects> listObject;
-  final List<CollectionObjects> listCollection;
+  final int group;
+  final List<ConnectedObjects>? listObject;
+  final List<CollectionObjects>? listCollection;
 
-  List<Map<String, dynamic>> listObjToJson() {
-    List<Map<String, dynamic>> listPrint = <Map<String, dynamic>>[];
+  const User({
+    required this.name,
+    required this.surname,
+    required this.email,
+    required this.group,
+    this.listObject,
+    this.listCollection,
+  });
 
-    for (var element in listObject) {
-      listPrint.add(element.toJson());
-    }
-    return listPrint;
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      name: json['name'],
+      surname: json['surname'],
+      email: json['email'],
+      group: json['group'],
+    );
   }
-
-  Map<String, dynamic> toJson() => <String, dynamic>{
-    "uid": uid,
-    "email": email,
-    "listObject": listObjToJson(),
-  };
 }

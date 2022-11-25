@@ -1,18 +1,12 @@
-const char* ssid = "Honolulu_EXT"; //Replace with your own SSID
-const char* password = "AnemoneGalata"; //Replace with your own password#include <ESPAsyncTCP.h>
-
-#include <ESP8266WiFi.h>
 #include <PubSubClient.h>
-#include "led_module.h"
-#include "protocol.h"
+#include "wifi_hotspot.h"
 
-const int ledPin = 14;
-WiFiClient espClient;
+WiFiClientSecure espClient;
 PubSubClient client(espClient);
-char *mqtt_server = "broker.emqx.io";
-int mqttPort = 1883;
-//auto lm = LedModule(14);
-auto protocol = HouseProtocol();
+char *mqtt_server = "mqtt.agrothink.tech";
+int mqttPort = 8883;
+
+static const char *fingerprint PROGMEM = "38 D1 32 A3 86 D0 B4 F9 6F F6 B1 30 C6 CF BD 5A B1 F3 55 FB";
 
 void callback(char* topic, byte *payload, unsigned int length) {
    Serial.println("-------Nouveau message du broker mqtt-----");
@@ -21,7 +15,7 @@ void callback(char* topic, byte *payload, unsigned int length) {
    Serial.print("donnee:");
    Serial.write(payload, length);
    Serial.println();
-   protocol.deserializeMQTT((char*)payload);
+   //protocol.deserializeMQTT((char*)payload);
    if ((char)payload[0] == '1') {
      Serial.println("LED ON");
      
@@ -34,7 +28,7 @@ void callback(char* topic, byte *payload, unsigned int length) {
 void reconnect(){
   while (!client.connected()) {
     Serial.println("Connection au serveur MQTT ...");
-    if (client.connect("ESP32Client")) {
+    if (client.connect("ESP8266Client", "iot_epitech", "llosson")) {
       Serial.println("MQTT connecté");
     }
     else {
@@ -52,7 +46,8 @@ void reconnect(){
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
-  WiFi.begin(ssid, password);
+  setupWifiHotspot();
+  espClient.setFingerprint(fingerprint);
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
     Serial.println("Connecting to WiFi..");
