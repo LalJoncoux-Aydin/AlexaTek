@@ -86,6 +86,7 @@ class AuthMethods {
         print(queryParameter);
         final requestHeaders = {
           'Content-type': 'application/json',
+          'Access-Control-Allow-Origin' : '*',
         };
         print(requestHeaders);
 
