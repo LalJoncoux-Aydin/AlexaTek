@@ -3,17 +3,29 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:alexatek/models/collection_objects.dart';
 import 'package:alexatek/models/connected_objects.dart';
+import 'package:alexatek/providers/user_provider.dart';
 import 'package:http/http.dart' as http;
-import 'dart:developer';
 import '../models/user.dart';
 
 String websiteUrl = "http://45.147.96.149:8000";
 
 class AuthMethods {
+  late User myUser;
 
   Future<User?> getUserDetails() async {
-    var uid = "tutu";
-    var email = "tutu@tutu.com";
+/*    http.Response response = await http.post(
+      Uri.parse("$websiteUrl/user"),
+      headers: <String, String>{
+        HttpHeaders.contentTypeHeader: 'application/json',
+      },
+      body: jsonEncode(<String, dynamic>{
+        "name": name,
+        "surname": surname,
+        "email": email,
+        "password": password,
+        "group": 0,
+      }),
+    );*/
 
     ConnectedObjects obj1 = const ConnectedObjects(name: "lampe 1", uid: "tutu 1", type: "lampe");
     ConnectedObjects obj2 = const ConnectedObjects(name: "porte 1", uid: "tutu 1", type: "porte");
@@ -36,7 +48,7 @@ class AuthMethods {
     final User user = User(
       name: "John",
       surname: "Doe",
-      email: email,
+      email: "johndoe@gmail.com",
       group: 0,
       listObject: listObj,
       listCollection: listCollection,
@@ -59,27 +71,6 @@ class AuthMethods {
     return listUser;
   }*/
 
-
-  Future<http.Response> registerUserRequest(name, surname, email, password) {
-    return http.post(
-      Uri.parse("$websiteUrl/user"),
-      headers: <String, String>{
-        HttpHeaders.contentTypeHeader: 'application/json',
-        HttpHeaders.accessControlAllowOriginHeader: '*',
-        HttpHeaders.accessControlRequestHeadersHeader: '*',
-        HttpHeaders.accessControlRequestMethodHeader: '*',
-        HttpHeaders.allowHeader: '*',
-      },
-      body: jsonEncode(<String, dynamic>{
-        "name": name,
-        "surname": surname,
-        "email": email,
-        "password": password,
-        "group": 0,
-      }),
-    );
-  }
-
   Future<String> registerUser({
     required String name,
     required String surname,
@@ -90,12 +81,22 @@ class AuthMethods {
     String res = "Internal unknown error.";
     try {
       if (name.isNotEmpty && surname.isNotEmpty && email.isNotEmpty && password.isNotEmpty) {
-        http.Response response = await registerUserRequest(name, surname, email, password);
-        print(response.body);
+        http.Response response = await http.post(
+          Uri.parse("$websiteUrl/user"),
+          headers: <String, String>{
+            HttpHeaders.contentTypeHeader: 'application/json',
+          },
+          body: jsonEncode(<String, dynamic>{
+            "name": name,
+            "surname": surname,
+            "email": email,
+            "password": password,
+            "group": 0,
+          }),
+        );
 
         if (response.statusCode == 200) {
-         /* User newUser = User.fromJson(jsonDecode(response.body));
-          print(newUser.name);*/
+          myUser = User.fromJson(jsonDecode(response.body));
           res = "Success";
         } else if (response.statusCode == 422) {
           res = "Validation error";
@@ -104,7 +105,6 @@ class AuthMethods {
         }
       }
     } catch (err) {
-      print("ERRRORRR");
       res = err.toString();
     }
     return res;
@@ -114,17 +114,30 @@ class AuthMethods {
     required String email,
     required String password,
   }) async {
-    String res = "Credentials are incorrect.";
+    String res = "";
     try {
       if (email.isNotEmpty && password.isNotEmpty) {
-        // TODO: Login User
+        http.Response response = await http.post(
+          Uri.parse("$websiteUrl/auth/login"),
+          headers: <String, String>{
+            HttpHeaders.contentTypeHeader: 'application/json',
+          },
+          body: jsonEncode(<String, dynamic>{
+            "email": email,
+            "password": password,
+          }),
+        );
 
-        res = "Success";
-      } else {
-        res = "Please enter all the fields";
+        if (response.statusCode == 200) {
+          res = jsonDecode(response.body)['token'];
+        } else if (response.statusCode == 422) {
+          res = "credentials-error";
+        } else {
+          res = "server-error";
+        }
       }
     } catch (err) {
-      res = err.toString();
+      res = "server-error";
     }
     return res;
   }

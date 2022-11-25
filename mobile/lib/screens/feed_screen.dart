@@ -30,6 +30,7 @@ class _FeedScreenState extends State<FeedScreen> {
 
   void setupUser() async {
     userProvider = Provider.of(context, listen: false);
+    print(userProvider.getToken);
     await userProvider.refreshUser();
     if (userProvider.isUser == true) {
       setState(() {
