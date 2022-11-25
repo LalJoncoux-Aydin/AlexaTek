@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:alexatek/models/collection_objects.dart';
-import 'package:alexatek/models/connected_objects.dart';
-import 'package:alexatek/providers/user_provider.dart';
+import 'package:alexatek/models/module.dart';
 import 'package:http/http.dart' as http;
 import '../models/user.dart';
 
@@ -19,12 +17,12 @@ class AuthMethods {
       },
     );
 
-    ConnectedObjects obj1 = const ConnectedObjects(name: "lampe 1", uid: "tutu 1", type: "lampe");
-    ConnectedObjects obj2 = const ConnectedObjects(name: "porte 1", uid: "tutu 1", type: "porte");
-    ConnectedObjects obj3 = const ConnectedObjects(name: "lampe 2", uid: "tutu 1", type: "lampe");
-    ConnectedObjects obj4 = const ConnectedObjects(name: "lampe 3", uid: "tutu 1", type: "lampe");
-    ConnectedObjects obj5 = const ConnectedObjects(name: "thermometre 1", uid: "tutu 1", type: "thermo");
-    List<ConnectedObjects> listObj = <ConnectedObjects>[];
+    Module obj1 = const Module(name: "lampe 1", id: 1);
+    Module obj2 = const Module(name: "porte 1", id: 2);
+    Module obj3 = const Module(name: "lampe 2", id: 3);
+    Module obj4 = const Module(name: "lampe 3", id: 4);
+    Module obj5 = const Module(name: "thermometre 1", id: 5);
+    List<Module> listObj = <Module>[];
     listObj.add(obj1);
     listObj.add(obj2);
     listObj.add(obj3);
@@ -38,24 +36,28 @@ class AuthMethods {
     listCollection.add(coll2);
 
     final User user = User.fromJson(jsonDecode(response.body));
-    user.setListsUser(listObj, listCollection);
+    user.setUserCollection(listCollection);
 
     return user;
   }
 
-/*  Future<model.User?> getSpecificUserDetails(String uid) async {
-    final DocumentSnapshot<Object?> documentSnapshot =
-        await _firestore.collection('users').doc(uid).get();
-    return model.User.fromSnap(documentSnapshot);
-  }*/
+  Future<List<Module>> getModules(String token) async {
+    http.Response response = await http.get(
+      Uri.parse("$websiteUrl/arduino/get_module"),
+      headers: <String, String>{
+        HttpHeaders.contentTypeHeader: 'application/json',
+        'X-API-KEY': token
+      },
+    );
+    final List<Module> listModule = [];
+    for (var module in jsonDecode(response.body)["modules"]){
+      print(module);
+      Module newModule = Module.fromJson(module);
+      listModule.add(newModule);
+    }
+    return listModule;
+  }
 
-/*  Future<List<model.User>?> getUserListByUsername(String username) async {
-    final QuerySnapshot<Map<String, dynamic>> documentSnapshot = await _firestore.collection('users').where('username', isEqualTo: username).get();
-    //List<model.User> listUser = documentSnapshot.docs.map((QueryDocumentSnapshot<Map<String, dynamic>> doc) => model.User.fromSnap(doc)).toList();
-    //listUser.sort((model.User a, model.User b) => a.username.compareTo(b.username));
-    listUser = listUser.reversed.toList();
-    return listUser;
-  }*/
 
   Future<String> registerUser({
     required String name,

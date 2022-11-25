@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
-import '../models/connected_objects.dart';
+import '../models/module.dart';
 import '../models/user.dart';
 import '../providers/user_provider.dart';
 import '../widgets/custom_object_list_widget.dart';
 
-class ObjectScreen extends StatefulWidget {
-  const ObjectScreen({Key? key}) : super(key: key);
+class ModuleScreen extends StatefulWidget {
+  const ModuleScreen({Key? key}) : super(key: key);
 
   @override
-  State<ObjectScreen> createState() => _ObjectScreenState();
+  State<ModuleScreen> createState() => _ModuleScreenState();
 }
 
-class _ObjectScreenState extends State<ObjectScreen> {
+class _ModuleScreenState extends State<ModuleScreen> {
   late UserProvider userProvider;
   late User myUser;
-  late List<ConnectedObjects> listObj = <ConnectedObjects>[];
+  late List<Module> listObj = <Module>[];
 
   @override
   void initState() {
@@ -26,11 +26,10 @@ class _ObjectScreenState extends State<ObjectScreen> {
 
   void setupUser() async {
     userProvider = Provider.of(context, listen: false);
-    await userProvider.refreshUser();
+    await userProvider.refreshModule();
     if (userProvider.isUser == true) {
       setState(() {
-        myUser = userProvider.getUser;
-        listObj = myUser.listObject!;
+        listObj = userProvider.listModule;
       });
     }
   }

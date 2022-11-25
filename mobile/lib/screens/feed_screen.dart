@@ -1,4 +1,4 @@
-import 'package:alexatek/models/connected_objects.dart';
+import 'package:alexatek/models/module.dart';
 import 'package:alexatek/widgets/custom_collection_list_widget.dart';
 import 'package:alexatek/widgets/custom_object_list_widget.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +20,7 @@ class _FeedScreenState extends State<FeedScreen> {
   late User myUser;
   late String name = "";
   late String surname = "";
-  late List<ConnectedObjects> listObj = <ConnectedObjects>[];
+  late List<Module> listObj = <Module>[];
   late List<CollectionObjects> listColl = <CollectionObjects>[];
   late bool _isLoadingUser = true;
 
@@ -38,7 +38,6 @@ class _FeedScreenState extends State<FeedScreen> {
         myUser = userProvider.getUser;
         name = myUser.name;
         surname = myUser.surname;
-        listObj = myUser.listObject!;
         listColl = myUser.listCollection!;
         _isLoadingUser = false;
       });
@@ -64,7 +63,7 @@ class _FeedScreenState extends State<FeedScreen> {
               child: Column(
                 children: <Widget>[
                   Text("Welcome $name $surname !"),
-                  CustomObjectListWidget(listObj: listObj),
+                 // CustomObjectListWidget(listObj: listObj),
                   CustomCollectionListWidget(listCollection: listColl),
                 ],
               ),
