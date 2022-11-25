@@ -1,8 +1,10 @@
 import 'package:alexatek/layout/screen_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:alexatek/screens/auth/login_screen.dart';
+import 'package:provider/provider.dart';
 
 import '../../methods/auth_methods.dart';
+import '../../providers/user_provider.dart';
 import '../../utils/colors.dart';
 import '../../widgets/auth/custom_nav_link_widget.dart';
 import '../../widgets/auth/header_login_register.dart';
@@ -28,6 +30,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   late String email = "";
   late String password = "";
   late String errorText = "";
+  late UserProvider userProvider;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
@@ -38,6 +41,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _emailController.dispose();
     _passwordController.dispose();
   }
+
+  @override
+  void initState() {
+    super.initState();
+    setupUser();
+  }
+
+  void setupUser() async {
+    userProvider = Provider.of(context, listen: false);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -143,6 +157,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
       });
 
       if (res == "Success") {
+        var loginRes = await AuthMethods().loginUser(
+          email: _emailController.text,
+          password: _passwordController.text,
+        );
+        userProvider.setupToken(loginRes);
         await Navigator.of(context!).pushReplacement(
             MaterialPageRoute<dynamic>(
               builder: (BuildContext context) => const ScreenLayout(),

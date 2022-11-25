@@ -10,22 +10,14 @@ import '../models/user.dart';
 String websiteUrl = "http://45.147.96.149:8000";
 
 class AuthMethods {
-  late User myUser;
-
-  Future<User?> getUserDetails() async {
-/*    http.Response response = await http.post(
-      Uri.parse("$websiteUrl/user"),
+  Future<User?> getUserDetails(String token) async {
+    http.Response response = await http.get(
+      Uri.parse("$websiteUrl/user/get"),
       headers: <String, String>{
         HttpHeaders.contentTypeHeader: 'application/json',
+        'X-API-KEY': token
       },
-      body: jsonEncode(<String, dynamic>{
-        "name": name,
-        "surname": surname,
-        "email": email,
-        "password": password,
-        "group": 0,
-      }),
-    );*/
+    );
 
     ConnectedObjects obj1 = const ConnectedObjects(name: "lampe 1", uid: "tutu 1", type: "lampe");
     ConnectedObjects obj2 = const ConnectedObjects(name: "porte 1", uid: "tutu 1", type: "porte");
@@ -45,14 +37,8 @@ class AuthMethods {
     listCollection.add(coll1);
     listCollection.add(coll2);
 
-    final User user = User(
-      name: "John",
-      surname: "Doe",
-      email: "johndoe@gmail.com",
-      group: 0,
-      listObject: listObj,
-      listCollection: listCollection,
-    );
+    final User user = User.fromJson(jsonDecode(response.body));
+    user.setListsUser(listObj, listCollection);
 
     return user;
   }
@@ -96,7 +82,6 @@ class AuthMethods {
         );
 
         if (response.statusCode == 200) {
-          myUser = User.fromJson(jsonDecode(response.body));
           res = "Success";
         } else if (response.statusCode == 422) {
           res = "Validation error";

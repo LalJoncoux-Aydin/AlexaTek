@@ -7,10 +7,10 @@ class User {
   final String surname;
   final String email;
   final int group;
-  final List<ConnectedObjects>? listObject;
-  final List<CollectionObjects>? listCollection;
+  late List<ConnectedObjects>? listObject;
+  late List<CollectionObjects>? listCollection;
 
-  const User({
+  User({
     required this.name,
     required this.surname,
     required this.email,
@@ -18,6 +18,11 @@ class User {
     this.listObject,
     this.listCollection,
   });
+
+  void setListsUser(listObject, listCollection) {
+    this.listObject = listObject;
+    this.listCollection = listCollection;
+  }
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(

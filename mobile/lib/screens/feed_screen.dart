@@ -18,6 +18,8 @@ class FeedScreen extends StatefulWidget {
 class _FeedScreenState extends State<FeedScreen> {
   late UserProvider userProvider;
   late User myUser;
+  late String name = "";
+  late String surname = "";
   late List<ConnectedObjects> listObj = <ConnectedObjects>[];
   late List<CollectionObjects> listColl = <CollectionObjects>[];
   late bool _isLoadingUser = true;
@@ -30,11 +32,12 @@ class _FeedScreenState extends State<FeedScreen> {
 
   void setupUser() async {
     userProvider = Provider.of(context, listen: false);
-    print(userProvider.getToken);
     await userProvider.refreshUser();
     if (userProvider.isUser == true) {
       setState(() {
         myUser = userProvider.getUser;
+        name = myUser.name;
+        surname = myUser.surname;
         listObj = myUser.listObject!;
         listColl = myUser.listCollection!;
         _isLoadingUser = false;
@@ -44,9 +47,9 @@ class _FeedScreenState extends State<FeedScreen> {
 
   @override
   Widget build(BuildContext context) {
-/*    if (_isLoadingUser == false) {
+    if (_isLoadingUser == true) {
       return const CustomLoadingScreen();
-    } else {*/
+    } else {
       return Scaffold(
         appBar: AppBar(
           centerTitle: false,
@@ -60,7 +63,7 @@ class _FeedScreenState extends State<FeedScreen> {
               width: double.infinity,
               child: Column(
                 children: <Widget>[
-                  const Text("Welcome John !"),
+                  Text("Welcome $name $surname !"),
                   CustomObjectListWidget(listObj: listObj),
                   CustomCollectionListWidget(listCollection: listColl),
                 ],
@@ -70,6 +73,6 @@ class _FeedScreenState extends State<FeedScreen> {
           ),
         )
       );
- //   }
+    }
   }
 }

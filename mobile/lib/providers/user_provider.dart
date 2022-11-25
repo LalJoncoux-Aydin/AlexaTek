@@ -23,7 +23,7 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future<void> refreshUser() async {
-    final User? user = await _authMethods.getUserDetails();
+    final User? user = await _authMethods.getUserDetails(_token);
 
     if (user != null) {
       _user = user;
