@@ -18,41 +18,50 @@ def on_connect(client, userdata, flags, rc):
 
 
 def on_message_lumos(client, userdata, msg):
-    try:
-        with open(f"{os.environ['SEED_L']}.log", 'w') as f:
-            f.write(msg.payload.decode())
-            
-        print(f"Received message: {msg.payload.decode()}", flush=True)
-    except Exception as e:
-        print(e, flush=True)
+    if (msg.payload.decode()[0] != 'g'):
+        try:
+            with open(f"{os.environ['SEED_L']}.log", 'w') as f:
+                f.write(msg.payload.decode())
+                
+            print(f"Received message: {msg.payload.decode()}", flush=True)
+        except Exception as e:
+            print(e, flush=True)
 
 def on_message_temp(client, userdata, msg):
-    try:
-        with open(f"{os.environ['SEED_T']}.log", 'w') as f:
-            f.write(msg.payload.decode())
-            
-        print(f"Received message: {msg.payload.decode()}", flush=True)
-    except Exception as e:
-        print(e, flush=True)
+    if (msg.payload.decode()[0] != 'g'):
+        try:
+            with open(f"{os.environ['SEED_T']}.log", 'w') as f:
+                f.write(msg.payload.decode())
+                
+            print(f"Received message: {msg.payload.decode()}", flush=True)
+        except Exception as e:
+            print(e, flush=True)
 
 
 def on_message_led(client, userdata, msg):
+    # check if not an int
     try:
-        with open(f"{os.environ['SEED_L']}.log", 'w') as f:
-            f.write(msg.payload.decode())
-            
-        print(f"Received message: {msg.payload.decode()}", flush=True)
+        int(msg.payload.decode())
     except Exception as e:
-        print(e, flush=True)
+        try:
+            with open(f"{os.environ['SEED_L']}.log", 'w') as f:
+                f.write(msg.payload.decode())
+                
+            print(f"Received message: {msg.payload.decode()}", flush=True)
+        except Exception as e:
+            print(e, flush=True)
 
 def on_message_rgb(client, userdata, msg):
     try:
-        with open(f"{os.environ['SEED_R']}.log", 'w') as f:
-            f.write(msg.payload.decode())
-            
-        print(f"Received message: {msg.payload.decode()}", flush=True)
+        int(msg.payload.decode())
     except Exception as e:
-        print(e, flush=True)
+        try:
+            with open(f"{os.environ['SEED_R']}.log", 'w') as f:
+                f.write(msg.payload.decode())
+                
+            print(f"Received message: {msg.payload.decode()}", flush=True)
+        except Exception as e:
+            print(e, flush=True)
 
 def on_message_action(client, userdata, msg):
     try:
@@ -79,9 +88,10 @@ def get_lumos():
     client.tls_set()
     client.connect("mqtt.agrothink.tech", 8883, 60)
     client.loop_start()
-    client.subscribe("losson/lumiresp", qos=0)
     
     client.publish("losson/luminosité", "g", qos=0)
+    client.subscribe("losson/luminosité", qos=0)
+    
     time.sleep(TIMEOUT)
     client.loop_stop()
     client.disconnect()
@@ -113,7 +123,7 @@ def get_temp():
     client.tls_set()
     client.connect("mqtt.agrothink.tech", 8883, 60)
     client.loop_start()
-    client.subscribe("losson/tempresp", qos=0)
+    client.subscribe("losson/temperature", qos=0)
     
     client.publish("losson/temperature", "g", qos=0)
     time.sleep(TIMEOUT)
@@ -173,7 +183,7 @@ def get_led_status(id : int):
     client.tls_set()
     client.connect("mqtt.agrothink.tech", 8883, 60)
     client.loop_start()
-    client.subscribe("losson/ledresp", qos=0)
+    client.subscribe("losson/led", qos=0)
     
     client.publish("losson/led", id, qos=0)
     time.sleep(TIMEOUT)
@@ -208,7 +218,7 @@ def get_rgb_status(id : int):
     client.tls_set()
     client.connect("mqtt.agrothink.tech", 8883, 60)
     client.loop_start()
-    client.subscribe("losson/rgbresp", qos=0)
+    client.subscribe("losson/rgb", qos=0)
     
     client.publish("losson/rgb", id, qos=0)
     time.sleep(TIMEOUT)
