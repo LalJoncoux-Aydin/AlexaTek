@@ -1,3 +1,4 @@
+import 'package:alexatek/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -46,11 +47,15 @@ class _ModuleScreenState extends State<ModuleScreen> {
         body: SafeArea(
           child: SingleChildScrollView(
             child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+              padding: const EdgeInsets.symmetric(vertical: 20),
               width: double.infinity,
               child: Column(
                 children: <Widget>[
-                  Text("Your modules"),
+                  const Text("Select a module :", style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: secondaryColor
+                  ),),
                   CustomObjectListWidget(listObj: listObj),
                 ],
               ),

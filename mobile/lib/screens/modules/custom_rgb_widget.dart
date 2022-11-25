@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/module.dart';
+import '../module_screen.dart';
 
 class CustomRgb extends StatefulWidget {
   const CustomRgb({Key? key, required this.module}) : super(key: key);
@@ -19,6 +20,19 @@ class _CustomRgbState extends State<CustomRgb> {
         centerTitle: true,
         title: const Text("Rgb"),
         automaticallyImplyLeading: true,
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: const Icon(Icons.arrow_back_ios),
+              onPressed: () async {
+                await Navigator.of(context).pushReplacement(
+                    MaterialPageRoute<dynamic>(
+                      builder: (BuildContext context) => const ModuleScreen(),
+                    )
+                ); },
+            );
+          },
+        ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(

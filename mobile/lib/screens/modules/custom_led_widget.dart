@@ -1,3 +1,4 @@
+import 'package:alexatek/screens/module_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/module.dart';
@@ -19,6 +20,19 @@ class _CustomLedState extends State<CustomLed> {
         centerTitle: true,
         title: const Text("Led"),
         automaticallyImplyLeading: true,
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: const Icon(Icons.arrow_back_ios),
+              onPressed: () async {
+                await Navigator.of(context).pushReplacement(
+                  MaterialPageRoute<dynamic>(
+                    builder: (BuildContext context) => const ModuleScreen(),
+                  )
+              ); },
+            );
+          },
+        ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(

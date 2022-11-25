@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 import '../models/module.dart';
 import '../utils/colors.dart';
-import 'modules/custom_door_widget.dart';
-import 'modules/custom_led_widget.dart';
-import 'modules/custom_rgb_widget.dart';
+import '../screens/modules/custom_door_widget.dart';
+import '../screens/modules/custom_led_widget.dart';
+import '../screens/modules/custom_rgb_widget.dart';
 
 class CustomObjectListWidget extends StatelessWidget {
   const CustomObjectListWidget({Key? key, required this.listObj}) : super(key: key);

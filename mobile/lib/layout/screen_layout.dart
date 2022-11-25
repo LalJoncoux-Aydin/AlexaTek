@@ -19,7 +19,7 @@ class ScreenLayout extends StatefulWidget {
 class _ScreenLayoutState extends State<ScreenLayout> {
   int _currentPage = 0;
   late PageController pageController;
-  late UserProvider userProvider;
+  late UserProvider userProvider = Provider.of(context, listen: false);
   late bool isUser = true;
 
   @override
@@ -30,10 +30,9 @@ class _ScreenLayoutState extends State<ScreenLayout> {
   }
 
   void setupUser() async {
-    userProvider = Provider.of(context, listen: false);
     await userProvider.refreshUser();
     setState(() {
-      isUser = userProvider.isUser;
+      userProvider = userProvider;
     });
   }
 
@@ -55,7 +54,7 @@ class _ScreenLayoutState extends State<ScreenLayout> {
 
   @override
   Widget build(BuildContext context) {
-    if (isUser == false) {
+    if (widget.loginScreen != null) {
       return widget.loginScreen!;
     } else {
       return Scaffold(
