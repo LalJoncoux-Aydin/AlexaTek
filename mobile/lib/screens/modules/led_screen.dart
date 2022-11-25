@@ -96,7 +96,7 @@ class _LedScreenState extends State<LedScreen> {
     });
     String res = await AuthMethods().setLedValue(
       id: widget.module.id,
-      value: value == true ? "0": "1",
+      value: value == true ? "1": "0",
       token: token,
     );
     setState(() {
