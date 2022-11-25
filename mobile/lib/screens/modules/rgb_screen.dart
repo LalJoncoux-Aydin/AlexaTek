@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import '../../models/module.dart';
 import '../module_screen.dart';
 
-class CustomRgb extends StatefulWidget {
-  const CustomRgb({Key? key, required this.module}) : super(key: key);
+class RgbScreen extends StatefulWidget {
+  const RgbScreen({Key? key, required this.module}) : super(key: key);
 
   final Module module;
 
   @override
-  State<CustomRgb> createState() => _CustomRgbState();
+  State<RgbScreen> createState() => _RgbScreenState();
 }
 
-class _CustomRgbState extends State<CustomRgb> {
+class _RgbScreenState extends State<RgbScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

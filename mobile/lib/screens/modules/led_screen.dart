@@ -1,24 +1,24 @@
+import 'package:alexatek/screens/module_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/module.dart';
-import '../module_screen.dart';
 
-class CustomDoor extends StatefulWidget {
-  const CustomDoor({Key? key, required this.module}) : super(key: key);
+class LedScreen extends StatefulWidget {
+  const LedScreen({Key? key, required this.module}) : super(key: key);
 
   final Module module;
 
   @override
-  State<CustomDoor> createState() => _CustomDoorState();
+  State<LedScreen> createState() => _LedScreenState();
 }
 
-class _CustomDoorState extends State<CustomDoor> {
+class _LedScreenState extends State<LedScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text("Door"),
+        title: const Text("Led"),
         automaticallyImplyLeading: true,
         leading: Builder(
           builder: (BuildContext context) {
@@ -26,10 +26,10 @@ class _CustomDoorState extends State<CustomDoor> {
               icon: const Icon(Icons.arrow_back_ios),
               onPressed: () async {
                 await Navigator.of(context).pushReplacement(
-                    MaterialPageRoute<dynamic>(
-                      builder: (BuildContext context) => const ModuleScreen(),
-                    )
-                ); },
+                  MaterialPageRoute<dynamic>(
+                    builder: (BuildContext context) => const ModuleScreen(),
+                  )
+              ); },
             );
           },
         ),
@@ -41,9 +41,9 @@ class _CustomDoorState extends State<CustomDoor> {
             width: double.infinity,
             child: Column(
               children: <Widget>[
-                Text("Door"),
-                Icon(Icons.door_back_door_outlined),
-                Text("Angle 180°"),
+                Icon(Icons.lightbulb, size: 45,),
+
+                Text("Open/Close"),
               ],
             ),
           ),

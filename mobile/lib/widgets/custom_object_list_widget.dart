@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 import '../models/module.dart';
 import '../utils/colors.dart';
-import '../screens/modules/custom_door_widget.dart';
-import '../screens/modules/custom_led_widget.dart';
-import '../screens/modules/custom_rgb_widget.dart';
+import '../screens/modules/door_screen.dart';
+import '../screens/modules/led_screen.dart';
+import '../screens/modules/rgb_screen.dart';
 
 class CustomObjectListWidget extends StatelessWidget {
   const CustomObjectListWidget({Key? key, required this.listObj}) : super(key: key);
@@ -40,19 +40,19 @@ Future<void> selectItem(Module module, BuildContext context) async {
   if (module.name == "led") {
     await Navigator.of(context).pushReplacement(
         MaterialPageRoute<dynamic>(
-          builder: (BuildContext context) => CustomLed(module: module),
+          builder: (BuildContext context) => LedScreen(module: module),
         )
     );
   } else if (module.name == "rgb") {
     await Navigator.of(context).pushReplacement(
         MaterialPageRoute<dynamic>(
-          builder: (BuildContext context) => CustomRgb(module: module),
+          builder: (BuildContext context) => RgbScreen(module: module),
         )
     );
   } else {
     await Navigator.of(context).pushReplacement(
         MaterialPageRoute<dynamic>(
-          builder: (BuildContext context) => CustomDoor(module: module),
+          builder: (BuildContext context) => DoorScreen(module: module),
         )
     );
   }
