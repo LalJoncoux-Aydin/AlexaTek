@@ -18,22 +18,25 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _surnameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _passwordController2 = TextEditingController();
   bool _isLoading = false;
+  late String name = "";
+  late String surname = "";
   late String email = "";
-  late String password1 = "";
-  late String password2 = "";
+  late String password = "";
   late String errorText = "";
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
     super.dispose();
+    _nameController.dispose();
+    _surnameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
-    _passwordController2.dispose();
   }
 
   @override
@@ -50,11 +53,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: Column(
                   children: <Widget>[
                     const HeaderLoginRegister(),
+                    CustomTextFormField(hintText: 'Enter your name', textEditingController: _nameController, isPass: false, isValid: nameIsValid(name), updateInput: updateName,),
+                    CustomTextFormField(hintText: 'Enter your surname', textEditingController: _surnameController, isPass: false, isValid: nameIsValid(surname), updateInput: updateSurname,),
                     CustomTextFormField(hintText: 'Enter your email', textEditingController: _emailController, isPass: false, isValid: emailIsValid(email), updateInput: updateEmail,),
-                    CustomTextFormField(hintText: 'Enter your password', textEditingController: _passwordController, isPass: true, isValid: passwordIsValid(password1), updateInput: updatePassword,),
-                    CustomTextFormField(hintText: 'Enter your password again', textEditingController: _passwordController2, isPass: true, isValid: password2IsValid(password1, password2), updateInput: updatePassword2,),
+                    CustomTextFormField(hintText: 'Enter your password', textEditingController: _passwordController, isPass: true, isValid: passwordIsValid(password), updateInput: updatePassword,),
                     if (errorText != "") CustomErrorText(displayStr: errorText),
-                    CustomValidationButton(displayText: 'Register', formKey: formKey, loadingState: _isLoading, onTapFunction: nextStepRegister, buttonColor: mainColor,),
+                    CustomValidationButton(displayText: 'Register', formKey: formKey, loadingState: _isLoading, onTapFunction: registerUser, buttonColor: mainColor,),
                     CustomNavLink(displayText1: "Already have an account ?", displayText2: "Login", onTapFunction: navigateToLogin,),
                   ],
                 ),
@@ -66,12 +70,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
+
+  // Setters - Getters
+    // Name update - IsValid
+  void updateName(dynamic newName) {
+    setState(() {
+      name = newName;
+    });
+  }
+  void updateSurname(dynamic newName) {
+    setState(() {
+      surname = newName;
+    });
+  }
+  String? nameIsValid(dynamic value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter some text';
+    }
+    return null;
+  }
+
+    // Email update - IsValid
   void updateEmail(dynamic newMail) {
     setState(() {
       email = newMail;
     });
   }
-
   String? emailIsValid(dynamic value) {
     if (value == null || value.isEmpty) {
       return 'Please enter some text';
@@ -81,46 +105,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return null;
   }
 
+    // Password update - IsValid
   void updatePassword(dynamic newPassword) {
     setState(() {
-      password1 = newPassword;
+      password = newPassword;
     });
   }
-
   String? passwordIsValid(dynamic value) {
     if (value == null || value.isEmpty) {
       return 'Please enter some text';
-    } else if (!RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$').hasMatch(value)) {
+    }
+    /*else if (!RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$').hasMatch(value)) {
       return 'Please enter a password with 8 characters length - 1 letters in Upper Case - 1 Special Character (!@#\$&*) - 1 numerals (0-9)';
-    }
+    }*/
     return null;
   }
 
-  void updatePassword2(dynamic newPassword) {
-    setState(() {
-      password2 = newPassword;
-    });
-  }
 
-  String? password2IsValid(dynamic pass1, dynamic pass2) {
-    if (pass2 == null || pass2.isEmpty) {
-      return 'Please enter some text';
-    } else if (pass1 != pass2) {
-      return 'Please rewrite your password identically';
-    }
-    return null;
-  }
-
-  void nextStepRegister(dynamic formKey, BuildContext? context) async {
+  // Methods
+    // Register user into the server
+  void registerUser(dynamic formKey, BuildContext? context) async {
     if (formKey.currentState!.validate()) {
       setState(() {
         _isLoading = true;
       });
 
-      // Go to second page of Register
+      // Back function
       var res = await AuthMethods().registerUser(
+        name: _nameController.text,
+        surname: _surnameController.text,
         email: _emailController.text,
         password: _passwordController.text,
+        group: "0",
       );
       setState(() {
         _isLoading = false;
@@ -140,6 +156,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
   }
 
+    // Navigate to login
   void navigateToLogin() {
     Navigator.of(context).maybePop(
       MaterialPageRoute<dynamic>(

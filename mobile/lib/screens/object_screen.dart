@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:alexatek/models/user.dart' as model;
 import 'package:provider/provider.dart';
 import '../models/connected_objects.dart';
+import '../models/user.dart';
 import '../providers/user_provider.dart';
 import '../widgets/custom_object_list_widget.dart';
 
@@ -15,7 +15,7 @@ class ObjectScreen extends StatefulWidget {
 
 class _ObjectScreenState extends State<ObjectScreen> {
   late UserProvider userProvider;
-  late model.User myUser;
+  late User myUser;
   late List<ConnectedObjects> listObj = <ConnectedObjects>[];
 
   @override
@@ -30,7 +30,7 @@ class _ObjectScreenState extends State<ObjectScreen> {
     if (userProvider.isUser == true) {
       setState(() {
         myUser = userProvider.getUser;
-        listObj = myUser.listObject;
+        listObj = myUser.listObject!;
       });
     }
   }

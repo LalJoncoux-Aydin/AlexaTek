@@ -1,15 +1,17 @@
+import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:alexatek/models/collection_objects.dart';
 import 'package:alexatek/models/connected_objects.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:alexatek/models/user.dart' as model;
+import 'package:http/http.dart' as http;
+
+import '../models/user.dart';
+
+String websiteUrl = "45.147.96.149:8000";
 
 class AuthMethods {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<model.User?> getUserDetails() async {
+  Future<User?> getUserDetails() async {
     var uid = "tutu";
     var email = "tutu@tutu.com";
 
@@ -31,12 +33,15 @@ class AuthMethods {
     listCollection.add(coll1);
     listCollection.add(coll2);
 
-    final model.User user = model.User(
-      uid: uid,
+    final User user = User(
+      name: "John",
+      surname: "Doe",
       email: email,
+      group: 0,
       listObject: listObj,
       listCollection: listCollection,
     );
+
     return user;
   }
 
@@ -54,66 +59,50 @@ class AuthMethods {
     return listUser;
   }*/
 
-  Future<bool> usernameDoesntExist(dynamic username) async {
-    final QuerySnapshot<Object?> querySnapshot =
-        await _firestore.collection('users').get();
 
-    final List<Object?> allData = querySnapshot.docs
-        .map((QueryDocumentSnapshot<Object?> doc) => doc.data())
-        .toList();
-    for (Object? user in allData) {
-      final String userStr = user.toString();
-      final String usernameOffset =
-          userStr.substring(userStr.indexOf("username: "));
-      final String usernameOld = usernameOffset.substring(
-        usernameOffset.indexOf(" ") + 1,
-        (!usernameOffset.contains(","))
-            ? usernameOffset.indexOf("}")
-            : usernameOffset.indexOf(","),
-      );
-      if (username == usernameOld) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  Future<bool> emailDoesntExist(dynamic email) async {
-    final QuerySnapshot<Object?> querySnapshot =
-        await _firestore.collection('users').get();
-
-    final List<Object?> allData = querySnapshot.docs
-        .map((QueryDocumentSnapshot<Object?> doc) => doc.data())
-        .toList();
-    for (Object? user in allData) {
-      final String userStr = user.toString();
-      final String usernameOffset =
-          userStr.substring(userStr.indexOf("email: "));
-      final String usernameOld = usernameOffset.substring(
-        usernameOffset.indexOf(" ") + 1,
-        (!usernameOffset.contains(","))
-            ? usernameOffset.indexOf("}")
-            : usernameOffset.indexOf(","),
-      );
-      if (email == usernameOld) {
-        return false;
-      }
-    }
-    return true;
-  }
+/*  Future<http.Response> registerUser() {
+    return http.get(Uri.parse('https://jsonplaceholder.typicode.com/albums/1'));
+  }*/
 
   Future<String> registerUser({
+    required String name,
+    required String surname,
     required String email,
     required String password,
+    required String group,
   }) async {
     String res = "Internal unknown error.";
     try {
-      if (email.isNotEmpty && password.isNotEmpty) {
+      if (name.isNotEmpty && surname.isNotEmpty && email.isNotEmpty && password.isNotEmpty) {
         // TODO: Register User
+        print("tutu");
+        final queryParameter = jsonEncode({
+          "name": name,
+          "surname": surname,
+          "email": email,
+          "password": password,
+          "group": 0,
+        });
+        print(queryParameter);
+        final requestHeaders = {
+          'Content-type': 'application/json',
+        };
+        print(requestHeaders);
 
-        res = "Success";
-      } else {
-        res = "Please enter all the fields";
+        final uri = Uri.http(websiteUrl, "/user/");
+        print(uri);
+        final response = await http.post(uri, headers: requestHeaders, body: queryParameter);
+        print(response);
+
+        if (response.statusCode == 200) {
+          User newUser = User.fromJson(jsonDecode(response.body));
+          print(newUser.name);
+          res = "Success";
+        } else if (response.statusCode == 422) {
+          res = "Validation error";
+        } else {
+          res = "Server error";
+        }
       }
     } catch (err) {
       res = err.toString();
@@ -139,7 +128,7 @@ class AuthMethods {
     }
     return res;
   }
-
+/*
   Future<String> updateUser({
     String? username,
     String? bio,
@@ -180,29 +169,6 @@ class AuthMethods {
     await _auth.signOut();
   }
 
-  Future<String> addFollowers({
-    String? userUid,
-    String? ownerUid,
-  }) async {
-    String res = "Internal unknown error.";
-    try {
-      // Add followers in owner user
-      await _firestore.collection('users').doc(ownerUid).update( <String, dynamic>{
-        'following': FieldValue.arrayUnion(<dynamic>[userUid as dynamic])
-      });
-      // Add following in visited user
-      await _firestore.collection('users').doc(userUid).update(<String, dynamic>{
-        'followers': FieldValue.arrayUnion(<dynamic>[ownerUid as dynamic])
-      });
-      res = "success";
-    } on FirebaseAuthException catch (err) {
-      res = err.code;
-    } catch (err) {
-      res = err.toString();
-    }
-    return res;
-  }
-
   Future<String> deleteUser({
     String? userUid,
   }) async {
@@ -218,27 +184,5 @@ class AuthMethods {
     }
     return res;
   }
-
-  Future<String> removeFollowers({
-    String? userUid,
-    String? ownerUid,
-  }) async {
-    String res = "Internal unknown error.";
-    try {
-      // Add followers in owner user
-      await _firestore.collection('users').doc(ownerUid).update( <String, dynamic>{
-        'following': FieldValue.arrayRemove(<dynamic>[userUid as dynamic])
-      });
-      // Add following in visited user
-      await _firestore.collection('users').doc(userUid).update(<String, dynamic>{
-        'followers': FieldValue.arrayRemove(<dynamic>[ownerUid as dynamic])
-      });
-      res = "success";
-    } on FirebaseAuthException catch (err) {
-      res = err.code;
-    } catch (err) {
-      res = err.toString();
-    }
-    return res;
-  }
+  */
 }

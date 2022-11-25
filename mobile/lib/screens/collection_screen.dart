@@ -1,8 +1,8 @@
 import 'package:alexatek/models/collection_objects.dart';
 import 'package:alexatek/widgets/custom_collection_list_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:alexatek/models/user.dart' as model;
 import 'package:provider/provider.dart';
+import '../models/user.dart';
 import '../providers/user_provider.dart';
 
 class CollectionScreen extends StatefulWidget {
@@ -14,7 +14,7 @@ class CollectionScreen extends StatefulWidget {
 
 class _CollectionScreenState extends State<CollectionScreen> {
   late UserProvider userProvider;
-  late model.User myUser;
+  late User myUser;
   late List<CollectionObjects> listColl = <CollectionObjects>[];
 
   @override
@@ -29,7 +29,7 @@ class _CollectionScreenState extends State<CollectionScreen> {
     if (userProvider.isUser == true) {
       setState(() {
         myUser = userProvider.getUser;
-        listColl = myUser.listCollection;
+        listColl = myUser.listCollection!;
       });
     }
   }
