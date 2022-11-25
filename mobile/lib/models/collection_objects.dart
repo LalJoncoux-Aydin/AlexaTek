@@ -1,4 +1,4 @@
-import 'package:alexatek/models/connected_objects.dart';
+import 'package:alexatek/models/module.dart';
 
 class CollectionObjects {
   const CollectionObjects({
@@ -8,20 +8,11 @@ class CollectionObjects {
   });
   final String name;
   final String uid;
-  final List<ConnectedObjects> listObject;
+  final List<Module> listObject;
 
-  List<Map<String, dynamic>> listObjToJson() {
-    List<Map<String, dynamic>> listPrint = <Map<String, dynamic>>[];
-
-    for (var element in listObject) {
-      listPrint.add(element.toJson());
-    }
-    return listPrint;
-  }
 
   Map<String, dynamic> toJson() => <String, dynamic>{
     "name": name,
     "uid": uid,
-    "listObject": listObjToJson(),
   };
 }

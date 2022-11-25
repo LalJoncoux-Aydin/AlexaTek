@@ -1,23 +1,25 @@
 import 'package:alexatek/models/collection_objects.dart';
 
-import 'connected_objects.dart';
+import 'module.dart';
 
 class User {
   final String name;
   final String surname;
   final String email;
   final int group;
-  final List<ConnectedObjects>? listObject;
-  final List<CollectionObjects>? listCollection;
+  late List<CollectionObjects>? listCollection;
 
-  const User({
+  User({
     required this.name,
     required this.surname,
     required this.email,
     required this.group,
-    this.listObject,
     this.listCollection,
   });
+
+  void setUserCollection(listCollection) {
+    this.listCollection = listCollection;
+  }
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(

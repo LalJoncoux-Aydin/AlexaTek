@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:alexatek/methods/auth_methods.dart';
 import 'package:alexatek/screens/auth/register_screen.dart';
 import 'package:alexatek/widgets/tools/custom_error_text_widget.dart';
+import 'package:provider/provider.dart';
 
 import '../../layout/screen_layout.dart';
+import '../../providers/user_provider.dart';
 import '../../widgets/auth/custom_nav_link_widget.dart';
 import '../../widgets/auth/header_login_register.dart';
 import '../../widgets/tools/custom_text_form_field_widget.dart';
@@ -24,6 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
   late String email = "";
   late String password = "";
   late String errorText = "";
+  late UserProvider userProvider;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
@@ -31,6 +34,16 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setupUser();
+  }
+
+  void setupUser() async {
+    userProvider = Provider.of(context, listen: false);
   }
 
   @override
@@ -91,7 +104,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void loginUser(dynamic formKey, BuildContext? context) async {
     if (formKey.currentState!.validate()) {
-
       setState(() {
         _isLoading = true;
       });
@@ -104,22 +116,21 @@ class _LoginScreenState extends State<LoginScreen> {
       });
 
       // if res is Success, go to next page
-      if (res == "Success") {
+      if (res == "server-error") {
+        setState(() {
+          errorText = "A server error happened : $res";
+        });
+      } else if (res == "credentials-error") {
+        setState(() {
+          errorText = "Credentials are incorrect.";
+        });
+      } else {
+        userProvider.setupToken(res);
         await Navigator.of(context!).push(
           MaterialPageRoute<dynamic>(
             builder: (BuildContext context) => const ScreenLayout(),
           ),
         );
-      }
-      else if (res == "wrong-credential") {
-        setState(() {
-          errorText = "Your credentials are not matching.";
-        });
-      }
-      else {
-        setState(() {
-          errorText = "A server error happened : $res";
-        });
       }
     }
   }

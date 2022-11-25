@@ -1,4 +1,4 @@
-import 'package:alexatek/models/connected_objects.dart';
+import 'package:alexatek/models/module.dart';
 import 'package:alexatek/widgets/custom_collection_list_widget.dart';
 import 'package:alexatek/widgets/custom_object_list_widget.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +18,9 @@ class FeedScreen extends StatefulWidget {
 class _FeedScreenState extends State<FeedScreen> {
   late UserProvider userProvider;
   late User myUser;
-  late List<ConnectedObjects> listObj = <ConnectedObjects>[];
+  late String name = "";
+  late String surname = "";
+  late List<Module> listObj = <Module>[];
   late List<CollectionObjects> listColl = <CollectionObjects>[];
   late bool _isLoadingUser = true;
 
@@ -34,7 +36,8 @@ class _FeedScreenState extends State<FeedScreen> {
     if (userProvider.isUser == true) {
       setState(() {
         myUser = userProvider.getUser;
-        listObj = myUser.listObject!;
+        name = myUser.name;
+        surname = myUser.surname;
         listColl = myUser.listCollection!;
         _isLoadingUser = false;
       });
@@ -43,12 +46,12 @@ class _FeedScreenState extends State<FeedScreen> {
 
   @override
   Widget build(BuildContext context) {
-/*    if (_isLoadingUser == false) {
+    if (_isLoadingUser == true) {
       return const CustomLoadingScreen();
-    } else {*/
+    } else {
       return Scaffold(
         appBar: AppBar(
-          centerTitle: false,
+          centerTitle: true,
           title: const Text("Home"),
           automaticallyImplyLeading: false,
         ),
@@ -59,8 +62,8 @@ class _FeedScreenState extends State<FeedScreen> {
               width: double.infinity,
               child: Column(
                 children: <Widget>[
-                  const Text("Welcome John !"),
-                  CustomObjectListWidget(listObj: listObj),
+                  Text("Welcome $name $surname !"),
+                 // CustomObjectListWidget(listObj: listObj),
                   CustomCollectionListWidget(listCollection: listColl),
                 ],
               ),
@@ -69,6 +72,6 @@ class _FeedScreenState extends State<FeedScreen> {
           ),
         )
       );
- //   }
+    }
   }
 }
