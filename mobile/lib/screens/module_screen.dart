@@ -39,8 +39,8 @@ class _ModuleScreenState extends State<ModuleScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          centerTitle: false,
-          title: const Text("Objects"),
+          centerTitle: true,
+          title: const Text("Modules"),
           automaticallyImplyLeading: false,
         ),
         body: SafeArea(
@@ -50,7 +50,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
               width: double.infinity,
               child: Column(
                 children: <Widget>[
-                  Text("Your objects"),
+                  Text("Your modules"),
                   CustomObjectListWidget(listObj: listObj),
                 ],
               ),

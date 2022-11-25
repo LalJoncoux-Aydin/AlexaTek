@@ -54,7 +54,6 @@ class AuthMethods {
     );
     final List<Module> listModule = [];
     for (var module in jsonDecode(response.body)["modules"]){
-      print(module);
       Module newModule = Module.fromJson(module);
       listModule.add(newModule);
     }

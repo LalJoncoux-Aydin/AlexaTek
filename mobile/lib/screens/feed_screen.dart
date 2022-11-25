@@ -51,7 +51,7 @@ class _FeedScreenState extends State<FeedScreen> {
     } else {
       return Scaffold(
         appBar: AppBar(
-          centerTitle: false,
+          centerTitle: true,
           title: const Text("Home"),
           automaticallyImplyLeading: false,
         ),

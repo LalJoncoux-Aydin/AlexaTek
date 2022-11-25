@@ -14,6 +14,28 @@ class CustomRgb extends StatefulWidget {
 class _CustomRgbState extends State<CustomRgb> {
   @override
   Widget build(BuildContext context) {
-    return Container(child: Text("Rgb"),);
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text("Rgb"),
+        automaticallyImplyLeading: true,
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+            width: double.infinity,
+            child: Column(
+              children: <Widget>[
+                Text("Rgb"),
+                Icon(Icons.light_mode),
+                Text("0-255, 0-255, 0-255"),
+                Text("0-1024"),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

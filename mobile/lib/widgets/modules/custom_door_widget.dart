@@ -14,6 +14,27 @@ class CustomDoor extends StatefulWidget {
 class _CustomDoorState extends State<CustomDoor> {
   @override
   Widget build(BuildContext context) {
-    return Container(child: Text("Door"),);
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text("Door"),
+        automaticallyImplyLeading: true,
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+            width: double.infinity,
+            child: Column(
+              children: <Widget>[
+                Text("Door"),
+                Icon(Icons.door_back_door_outlined),
+                Text("Angle 180°"),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
