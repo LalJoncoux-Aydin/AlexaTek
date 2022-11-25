@@ -148,12 +148,8 @@ class _RgbScreenState extends State<RgbScreen> {
         value3: value3,
         token: token,
       );
-      setState(() {
-        _isLoading = false;
-      });
 
       if (res == "Success") {
-        print("Sucess");
         setState(() {
           isColor = Color.fromARGB(255, int.parse(value1), int.parse(value2), int.parse(value3));
         });
@@ -162,6 +158,9 @@ class _RgbScreenState extends State<RgbScreen> {
           errorMessage = res;
         });
       }
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 }
