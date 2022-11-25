@@ -1,28 +1,69 @@
 #include <PubSubClient.h>
 #include "wifi_hotspot.h"
+#include "fonctions.h"
+#include <ArduinoJson.h>
 
 WiFiClientSecure espClient;
 PubSubClient client(espClient);
 char *mqtt_server = "mqtt.agrothink.tech";
 int mqttPort = 8883;
-
 static const char *fingerprint PROGMEM = "38 D1 32 A3 86 D0 B4 F9 6F F6 B1 30 C6 CF BD 5A B1 F3 55 FB";
+const char *topic_listen_luminosity = "losson/luminosity";
+const char *topic_listen_temperature = "losson/temperature";
+const char *topic_action = "losson/action";
+char topic_char[30];
+
+void deserializeMQTT(char *payload) {
+  Serial.println(payload);
+  StaticJsonDocument<200> doc;
+  deserializeJson(doc, payload);
+
+  char id = doc["id"];
+  Serial.println("Print l'id batard");
+  Serial.println(String(id));
+  if (id == '1') {
+    Serial.println("Fils dup");
+    String arg1= doc["args"][0];
+    Serial.println(arg1);
+  }
+  if (id == '2') {
+    String arg1= doc["args"][0];
+    String arg2= doc["args"][1];
+    String arg3= doc["args"][2];
+    Serial.println(arg1);
+    Serial.println(arg2);
+    Serial.println(arg3);
+  }
+  if (id == '3') {
+    //servo1
+  }
+  if (id == '4') {
+    //servo2
+  }
+
+}
 
 void callback(char* topic, byte *payload, unsigned int length) {
-   Serial.println("-------Nouveau message du broker mqtt-----");
-   Serial.print("Canal:");
-   Serial.println(topic);
-   Serial.print("donnee:");
-   Serial.write(payload, length);
-   Serial.println();
-   //protocol.deserializeMQTT((char*)payload);
-   if ((char)payload[0] == '1') {
-     Serial.println("LED ON");
-     
-   } else {
-     Serial.println("LED OFF");
-     
+   Serial.println((char *)payload);
+   if (strcoll(topic, topic_listen_luminosity) == 0) {
+     if (payload[0] == 'g') {
+      String str = String(getLuminosityValue());
+      str.toCharArray(topic_char, str.length() + 1);
+      client.publish(topic_listen_luminosity, topic_char);
+     }
    }
+   if (strcoll(topic, topic_listen_temperature) == 0) {
+     if (payload[0] == 'g') {
+      //String str = String(getTemperature());
+      //str.toCharArray(topic_char, str.length() + 1);
+      client.publish(topic_listen_luminosity, "21");
+     }
+   }
+   if (strcoll(topic, topic_action) == 0) {
+      deserializeMQTT((char*)payload);
+   }
+   
+   //
  }
  
 void reconnect(){
@@ -38,15 +79,26 @@ void reconnect(){
     delay(2000);
     }
   }
-  client.subscribe("lolosson");//souscription au topic led pour commander une led
-  Serial.println("Subscribed to topic lolosson");
+  client.subscribe(topic_listen_temperature);//souscription au topic led pour commander une led
+  client.subscribe(topic_listen_luminosity);
+  client.subscribe(topic_action);
+  Serial.println(topic_action);
 }
 
 
 void setup() {
+  servo1.attach(15);
+  pinMode(pinT, OUTPUT);
+  pinMode(pinC, OUTPUT);
+  pinMode(pinBlue, OUTPUT);
+  pinMode(pinRed, OUTPUT);
+  pinMode(pinGreen, OUTPUT);
+  pinMode(pinLed, OUTPUT);
   // put your setup code here, to run once:
   Serial.begin(115200);
-  setupWifiHotspot();
+  setupModules();
+  //setupWifiHotspot();
+  WiFi.begin("Honolulu_EXT", "AnemoneGalata");  
   espClient.setFingerprint(fingerprint);
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
@@ -55,7 +107,6 @@ void setup() {
    client.setServer(mqtt_server, mqttPort);
    client.setCallback(callback);//Déclaration de la fonction de souscription
    reconnect();
-   client.publish("testtopic/lolosson", "Hello from ESP8266");
 
 }
 
