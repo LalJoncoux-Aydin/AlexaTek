@@ -4,10 +4,10 @@ import 'dart:typed_data';
 import 'package:alexatek/models/collection_objects.dart';
 import 'package:alexatek/models/connected_objects.dart';
 import 'package:http/http.dart' as http;
-
+import 'dart:developer';
 import '../models/user.dart';
 
-String websiteUrl = "45.147.96.149:8000";
+String websiteUrl = "http://45.147.96.149:8000";
 
 class AuthMethods {
 
@@ -60,9 +60,25 @@ class AuthMethods {
   }*/
 
 
-/*  Future<http.Response> registerUser() {
-    return http.get(Uri.parse('https://jsonplaceholder.typicode.com/albums/1'));
-  }*/
+  Future<http.Response> registerUserRequest(name, surname, email, password) {
+    return http.post(
+      Uri.parse("$websiteUrl/user"),
+      headers: <String, String>{
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.accessControlAllowOriginHeader: '*',
+        HttpHeaders.accessControlRequestHeadersHeader: '*',
+        HttpHeaders.accessControlRequestMethodHeader: '*',
+        HttpHeaders.allowHeader: '*',
+      },
+      body: jsonEncode(<String, dynamic>{
+        "name": name,
+        "surname": surname,
+        "email": email,
+        "password": password,
+        "group": 0,
+      }),
+    );
+  }
 
   Future<String> registerUser({
     required String name,
@@ -74,30 +90,12 @@ class AuthMethods {
     String res = "Internal unknown error.";
     try {
       if (name.isNotEmpty && surname.isNotEmpty && email.isNotEmpty && password.isNotEmpty) {
-        // TODO: Register User
-        print("tutu");
-        final queryParameter = jsonEncode({
-          "name": name,
-          "surname": surname,
-          "email": email,
-          "password": password,
-          "group": 0,
-        });
-        print(queryParameter);
-        final requestHeaders = {
-          'Content-type': 'application/json',
-          'Access-Control-Allow-Origin' : '*',
-        };
-        print(requestHeaders);
-
-        final uri = Uri.http(websiteUrl, "/user/");
-        print(uri);
-        final response = await http.post(uri, headers: requestHeaders, body: queryParameter);
-        print(response);
+        http.Response response = await registerUserRequest(name, surname, email, password);
+        print(response.body);
 
         if (response.statusCode == 200) {
-          User newUser = User.fromJson(jsonDecode(response.body));
-          print(newUser.name);
+         /* User newUser = User.fromJson(jsonDecode(response.body));
+          print(newUser.name);*/
           res = "Success";
         } else if (response.statusCode == 422) {
           res = "Validation error";
@@ -106,6 +104,7 @@ class AuthMethods {
         }
       }
     } catch (err) {
+      print("ERRRORRR");
       res = err.toString();
     }
     return res;
