@@ -32,7 +32,6 @@ class _LedScreenState extends State<LedScreen> {
   }
 
   void setupUser() async {
-    print(widget.module.value);
     isOn = widget.module.value == "1" ? false : true;
     userProvider = Provider.of(context, listen: false);
     await userProvider.refreshUser();
