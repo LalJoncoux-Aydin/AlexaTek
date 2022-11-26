@@ -6,7 +6,7 @@ import time
 import os
 
 
-TIMEOUT = 4
+TIMEOUT = 1
 MAIN_LOGFILE = "main.log"
 
 MODULE_LIST = [{"id": 1, "name": "led"}, {"id": 2, "name": "rgb"}, {"id": 3, "name": "servo1"}, {"id": 4, "name": "servo2"}]
@@ -89,8 +89,8 @@ def get_lumos():
     client.connect("mqtt.agrothink.tech", 8883, 60)
     client.loop_start()
     
-    client.publish("losson/luminosité", "g", qos=0)
-    client.subscribe("losson/luminosité", qos=0)
+    client.publish("losson/luminosity", "g", qos=0)
+    client.subscribe("losson/luminosity", qos=0)
     
     time.sleep(TIMEOUT)
     client.loop_stop()
@@ -99,7 +99,7 @@ def get_lumos():
     
     if os.path.exists(f"{seed}.log"):
 
-        resp = json.loads(open(f"{seed}.log", 'r').read())["msg"]
+        resp = json.loads(open(f"{seed}.log", 'r').readline())
         os.remove(f"{seed}.log")
         
         with open(MAIN_LOGFILE, 'a') as f:
