@@ -13,7 +13,14 @@ class CustomCollectionListWidget extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
       width: double.infinity,
-      color: secondaryColor,
+      decoration: BoxDecoration(
+        color: primaryColor,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          color: thirdColor,
+          width: 1,
+        ),
+      ),
       child: ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),

@@ -1,3 +1,4 @@
+import 'package:alexatek/widgets/modules/custom_object_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,14 @@ class CustomObjectListWidget extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
       width: double.infinity,
-      color: secondaryColor,
+      decoration: BoxDecoration(
+        color: primaryColor,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          color: thirdColor,
+          width: 1,
+        ),
+      ),
       child: ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
@@ -25,9 +33,7 @@ class CustomObjectListWidget extends StatelessWidget {
           margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
           child:  GestureDetector(
             onTap: () => selectItem(listObj[index], context),
-            child: Container(
-              child: Text(listObj[index].name),
-            ),
+            child: CustomObjectItem(obj: listObj[index], selectItem: selectItem),
           ),
         ),
         itemCount: listObj.length,
