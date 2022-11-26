@@ -1,12 +1,12 @@
 class Module {
-  const Module({
+  Module({
     required this.name,
     required this.id,
-    //required this.type,
+    this.value,
   });
   final String name;
   final int id;
-  //final String type;
+  String? value = "";
 
   factory Module.fromJson(Map<String, dynamic> json) {
     return Module(

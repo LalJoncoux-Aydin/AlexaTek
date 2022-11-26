@@ -27,10 +27,16 @@ class CustomObjectItem extends StatelessWidget {
             Icon(iconName),
             Expanded(
               child: Container(
-                padding: EdgeInsets.only(left: 15),
+                padding: const EdgeInsets.only(left: 15),
                 child: Text(obj.name),
               )
-            )
+            ),
+            Expanded(
+                child: Container(
+                  padding: const EdgeInsets.only(left: 15),
+                  child: Text(obj.value!),
+                )
+            ),
           ],
         )
       ),

@@ -17,11 +17,11 @@ class AuthMethods {
       },
     );
     if (response.statusCode == 200) {
-      Module obj1 = const Module(name: "lampe 1", id: 1);
-      Module obj2 = const Module(name: "porte 1", id: 2);
-      Module obj3 = const Module(name: "lampe 2", id: 3);
-      Module obj4 = const Module(name: "lampe 3", id: 4);
-      Module obj5 = const Module(name: "thermometre 1", id: 5);
+      Module obj1 = Module(name: "lampe 1", id: 1, value: "0");
+      Module obj2 =  Module(name: "porte 1", id: 2, value: "0");
+      Module obj3 =  Module(name: "lampe 2", id: 3, value: "0");
+      Module obj4 =  Module(name: "lampe 3", id: 4, value: "0");
+      Module obj5 =  Module(name: "thermometre 1", id: 5, value: "0");
       List<Module> listObj = <Module>[];
       listObj.add(obj1);
       listObj.add(obj2);
@@ -58,16 +58,23 @@ class AuthMethods {
         'X-API-KEY': token
       },
     );
+    var saveValues = jsonDecode(responseSave.body);
 
     final List<Module> listModule = [];
     Module newModule = Module.fromJson(jsonDecode(response.body)["modules"][0]);
-    //newModule.value = jsonDecode(responseSave.body)["led"];
+    if (saveValues["detail"] != "No saves found") {
+      newModule.value = jsonDecode(responseSave.body)["led"].toString();
+    }
     listModule.add(newModule);
     Module newModule2 = Module.fromJson(jsonDecode(response.body)["modules"][1]);
-    //newModule2.value = jsonDecode(responseSave.body)["r"];
+    if (saveValues["detail"] != "No saves found") {
+      newModule2.value = "${jsonDecode(responseSave.body)["r"]},${jsonDecode(responseSave.body)["g"]},${jsonDecode(responseSave.body)["b"]}";
+    }
     listModule.add(newModule2);
     Module newModule3 = Module.fromJson(jsonDecode(response.body)["modules"][2]);
-    //newModule3.value = jsonDecode(responseSave.body)["servo"];
+    if (saveValues["detail"] != "No saves found") {
+      newModule3.value = jsonDecode(responseSave.body)["servo"].toString();
+    }
     listModule.add(newModule3);
 
     return listModule;
@@ -167,6 +174,30 @@ class AuthMethods {
 
       if (response.statusCode == 200) {
         res = "Success";
+
+        http.Response responseSave = await http.get(
+          Uri.parse("$websiteUrl/save/get"),
+          headers: <String, String>{
+            HttpHeaders.contentTypeHeader: 'application/json',
+            'X-API-KEY': token
+          },
+        );
+        var lastResponseSave = jsonDecode(responseSave.body);
+
+        http.Response responseSavePost = await http.post(
+          Uri.parse("$websiteUrl/save"),
+          headers: <String, String>{
+            HttpHeaders.contentTypeHeader: 'application/json',
+            'X-API-KEY': token,
+          },
+          body: jsonEncode(<String, dynamic>{
+            "led": int.parse(value),
+            "r": lastResponseSave["r"],
+            "g": lastResponseSave["g"],
+            "b": lastResponseSave["b"],
+            "servo": lastResponseSave["servo"],
+          }),
+        );
       } else if (response.statusCode == 422) {
         res = "credentials-error";
       } else {
