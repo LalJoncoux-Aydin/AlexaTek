@@ -1,3 +1,4 @@
+import 'package:alexatek/layout/screen_layout.dart';
 import 'package:alexatek/methods/auth_methods.dart';
 import 'package:alexatek/screens/module_screen.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +60,9 @@ class _LedScreenState extends State<LedScreen> {
                 onPressed: () async {
                   await Navigator.of(context).pushReplacement(
                       MaterialPageRoute<dynamic>(
-                        builder: (BuildContext context) => const ModuleScreen(),
+                        builder: (BuildContext context) => const ScreenLayout(
+                          loginScreen: null,
+                        ),
                       )
                   );
                 },

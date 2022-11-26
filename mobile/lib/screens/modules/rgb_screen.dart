@@ -2,6 +2,7 @@ import 'package:alexatek/widgets/tools/custom_validation_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../layout/screen_layout.dart';
 import '../../methods/auth_methods.dart';
 import '../../models/module.dart';
 import '../../providers/user_provider.dart';
@@ -76,7 +77,9 @@ class _RgbScreenState extends State<RgbScreen> {
                 onPressed: () async {
                   await Navigator.of(context).pushReplacement(
                       MaterialPageRoute<dynamic>(
-                        builder: (BuildContext context) => const ModuleScreen(),
+                        builder: (BuildContext context) => const ScreenLayout(
+                          loginScreen: null,
+                        ),
                       )
                   );
                 },

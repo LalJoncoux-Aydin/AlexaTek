@@ -1,3 +1,4 @@
+import 'package:alexatek/layout/screen_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -59,7 +60,7 @@ class _DoorScreenState extends State<DoorScreen> {
                 onPressed: () async {
                   await Navigator.of(context).pushReplacement(
                       MaterialPageRoute<dynamic>(
-                        builder: (BuildContext context) => const ModuleScreen(),
+                        builder: (BuildContext context) => const ScreenLayout(),
                       )
                   ); },
               );
