@@ -1,4 +1,5 @@
 import 'package:alexatek/layout/screen_layout.dart';
+import 'package:alexatek/methods/auth_methods.dart';
 import 'package:alexatek/models/module.dart';
 import 'package:alexatek/screens/auth/login_screen.dart';
 import 'package:alexatek/widgets/custom_collection_list_widget.dart';
@@ -23,6 +24,7 @@ class _FeedScreenState extends State<FeedScreen> {
   late User myUser;
   late String name = "";
   late String surname = "";
+  late String token = "";
   late List<Module> listObj = <Module>[];
   late List<CollectionObjects> listColl = <CollectionObjects>[];
   late bool _isLoadingUser = true;
@@ -44,6 +46,7 @@ class _FeedScreenState extends State<FeedScreen> {
         surname = myUser.surname;
         listColl = myUser.listCollection!;
         listObj = userProvider.listModule;
+        token = userProvider.getToken;
         _isLoadingUser = false;
       });
     }
@@ -90,10 +93,14 @@ class _FeedScreenState extends State<FeedScreen> {
   }
 
   Future<void> logout(BuildContext context) async {
-    await Navigator.of(context).pushReplacement(
-        MaterialPageRoute<dynamic>(
-          builder: (BuildContext context) => const ScreenLayout(loginScreen: LoginScreen(),),
-        )
-    );
+    var res = await AuthMethods().resetSavedValues(token: token);
+    if (res == "Success") {
+      await Navigator.of(context).pushReplacement(
+          MaterialPageRoute<dynamic>(
+            builder: (BuildContext context) =>
+            const ScreenLayout(loginScreen: LoginScreen(),),
+          )
+      );
+    }
   }
 }

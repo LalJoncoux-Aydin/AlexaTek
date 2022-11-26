@@ -59,6 +59,7 @@ class AuthMethods {
       },
     );
     var saveValues = jsonDecode(responseSave.body);
+    print(saveValues);
 
     final List<Module> listModule = [];
     Module newModule = Module.fromJson(jsonDecode(response.body)["modules"][0]);
@@ -268,6 +269,67 @@ class AuthMethods {
       }
     } catch (err) {
       res = "server-error";
+    }
+    return res;
+  }
+
+  Future<String> resetSavedValues({
+  required String token,
+  }) async {
+    var res = "Error";
+
+    await http.post(
+      Uri.parse("$websiteUrl/arduino/action"),
+      headers: <String, String>{
+        HttpHeaders.contentTypeHeader: 'application/json',
+        'X-API-KEY': token,
+      },
+      body: jsonEncode(<String, dynamic>{
+        "id": "1",
+        "args": ["0"],
+      }),
+    );
+
+    await http.post(
+      Uri.parse("$websiteUrl/arduino/action"),
+      headers: <String, String>{
+        HttpHeaders.contentTypeHeader: 'application/json',
+        'X-API-KEY': token,
+      },
+      body: jsonEncode(<String, dynamic>{
+        "id": "2",
+        "args": ["0", "0", "0"],
+      }),
+    );
+
+    await http.post(
+      Uri.parse("$websiteUrl/arduino/action"),
+      headers: <String, String>{
+        HttpHeaders.contentTypeHeader: 'application/json',
+        'X-API-KEY': token,
+      },
+      body: jsonEncode(<String, dynamic>{
+        "id": "3",
+        "args": ["0"],
+      }),
+    );
+
+    http.Response responseSavePost = await http.post(
+      Uri.parse("$websiteUrl/save"),
+      headers: <String, String>{
+        HttpHeaders.contentTypeHeader: 'application/json',
+        'X-API-KEY': token,
+      },
+      body: jsonEncode(<String, dynamic>{
+        "led": 0,
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "servo": 0,
+      }),
+    );
+    if (responseSavePost.statusCode == 200) {
+      res = "Success";
     }
     return res;
   }
