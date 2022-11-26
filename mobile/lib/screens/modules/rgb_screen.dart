@@ -94,7 +94,7 @@ class _RgbScreenState extends State<RgbScreen> {
                   width: double.infinity,
                   child: Column(
                     children: <Widget>[
-                      Icon(Icons.light_mode, color: isColor),
+                      Icon(Icons.light_mode, color: isColor, size: 45),
                       CustomTextFormField(hintText: '0-255', textEditingController: _value1Controller, isPass: false, isValid: valueIsValid(value1), updateInput: updateValue1,),
                       CustomTextFormField(hintText: '0-255', textEditingController: _value2Controller, isPass: false, isValid: valueIsValid(value2), updateInput: updateValue2,),
                       CustomTextFormField(hintText: '0-255', textEditingController: _value3Controller, isPass: false, isValid: valueIsValid(value3), updateInput: updateValue3,),

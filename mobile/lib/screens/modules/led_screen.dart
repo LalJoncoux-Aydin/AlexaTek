@@ -99,9 +99,6 @@ class _LedScreenState extends State<LedScreen> {
       value: value == true ? "1": "0",
       token: token,
     );
-    setState(() {
-      _isLoading = false;
-    });
 
     if (res == "Success") {
       setState(() {
@@ -112,5 +109,8 @@ class _LedScreenState extends State<LedScreen> {
         errorMessage = res;
       });
     }
+    setState(() {
+      _isLoading = false;
+    });
   }
 }

@@ -202,6 +202,40 @@ class AuthMethods {
     }
     return res;
   }
+
+  Future<String> setDoorValue({
+    required int id,
+    required String value,
+    required String token,
+  }) async {
+    String res = "";
+    List<String> listValue = [];
+    listValue.add(value);
+    try {
+      http.Response response = await http.post(
+        Uri.parse("$websiteUrl/arduino/action"),
+        headers: <String, String>{
+          HttpHeaders.contentTypeHeader: 'application/json',
+          'X-API-KEY': token,
+        },
+        body: jsonEncode(<String, dynamic>{
+          "id": "$id",
+          "args": listValue,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        res = "Success";
+      } else if (response.statusCode == 422) {
+        res = "credentials-error";
+      } else {
+        res = "server-error";
+      }
+    } catch (err) {
+      res = "server-error";
+    }
+    return res;
+  }
 /*
   Future<String> updateUser({
     String? username,
