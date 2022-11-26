@@ -1,5 +1,4 @@
 import 'package:alexatek/widgets/modules/custom_object_item.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../models/module.dart';

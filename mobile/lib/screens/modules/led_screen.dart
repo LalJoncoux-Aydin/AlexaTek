@@ -1,6 +1,5 @@
 import 'package:alexatek/layout/screen_layout.dart';
 import 'package:alexatek/methods/auth_methods.dart';
-import 'package:alexatek/screens/module_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

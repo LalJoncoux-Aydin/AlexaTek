@@ -1,7 +1,5 @@
 import 'package:alexatek/models/collection_objects.dart';
 
-import 'module.dart';
-
 class User {
   final String name;
   final String surname;

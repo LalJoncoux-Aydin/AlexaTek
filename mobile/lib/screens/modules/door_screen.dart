@@ -7,7 +7,6 @@ import '../../models/module.dart';
 import '../../providers/user_provider.dart';
 import '../../widgets/modules/custom_open_close_button_widget.dart';
 import '../../widgets/tools/custom_loading_screen.dart';
-import '../module_screen.dart';
 
 class DoorScreen extends StatefulWidget {
   const DoorScreen({Key? key, required this.module}) : super(key: key);

@@ -28,7 +28,6 @@ class AuthMethods {
       listObj.add(obj3);
       listObj.add(obj4);
       listObj.add(obj5);
-
       CollectionObjects coll1 = CollectionObjects(name: "Collection 1", uid: "tutu 1", listObject: listObj);
       CollectionObjects coll2 = CollectionObjects(name: "Collection 2", uid: "tutu 2", listObject: listObj);
       List<CollectionObjects> listCollection = <CollectionObjects>[];
@@ -52,11 +51,25 @@ class AuthMethods {
         'X-API-KEY': token
       },
     );
+    http.Response responseSave = await http.get(
+      Uri.parse("$websiteUrl/save/get"),
+      headers: <String, String>{
+        HttpHeaders.contentTypeHeader: 'application/json',
+        'X-API-KEY': token
+      },
+    );
+
     final List<Module> listModule = [];
-    for (var module in jsonDecode(response.body)["modules"]){
-      Module newModule = Module.fromJson(module);
-      listModule.add(newModule);
-    }
+    Module newModule = Module.fromJson(jsonDecode(response.body)["modules"][0]);
+    //newModule.value = jsonDecode(responseSave.body)["led"];
+    listModule.add(newModule);
+    Module newModule2 = Module.fromJson(jsonDecode(response.body)["modules"][1]);
+    //newModule2.value = jsonDecode(responseSave.body)["r"];
+    listModule.add(newModule2);
+    Module newModule3 = Module.fromJson(jsonDecode(response.body)["modules"][2]);
+    //newModule3.value = jsonDecode(responseSave.body)["servo"];
+    listModule.add(newModule3);
+
     return listModule;
   }
 
