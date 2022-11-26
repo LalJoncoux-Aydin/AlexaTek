@@ -22,7 +22,17 @@ class CustomObjectItem extends StatelessWidget {
     return Container(
       child:  GestureDetector(
         onTap: () => selectItem(obj, context),
-        child: Text(obj.name),
+        child: Row(
+          children: [
+            Icon(iconName),
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.only(left: 15),
+                child: Text(obj.name),
+              )
+            )
+          ],
+        )
       ),
     );
   }
