@@ -1,4 +1,6 @@
+import 'package:alexatek/layout/screen_layout.dart';
 import 'package:alexatek/models/module.dart';
+import 'package:alexatek/screens/auth/login_screen.dart';
 import 'package:alexatek/widgets/custom_collection_list_widget.dart';
 import 'package:alexatek/widgets/custom_object_list_widget.dart';
 import 'package:flutter/material.dart';
@@ -61,8 +63,8 @@ class _FeedScreenState extends State<FeedScreen> {
             Container(
               padding: const EdgeInsets.only(right: 15),
               child: GestureDetector(
-                onTap: () {},
-                child: Icon(Icons.logout),
+                onTap: () => logout(context),
+                child: const Icon(Icons.logout),
               )
             )
           ],
@@ -85,5 +87,13 @@ class _FeedScreenState extends State<FeedScreen> {
         )
       );
     }
+  }
+
+  Future<void> logout(BuildContext context) async {
+    await Navigator.of(context).pushReplacement(
+        MaterialPageRoute<dynamic>(
+          builder: (BuildContext context) => const ScreenLayout(loginScreen: LoginScreen(),),
+        )
+    );
   }
 }
