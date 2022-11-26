@@ -1,4 +1,5 @@
 import 'package:alexatek/utils/colors.dart';
+import 'package:alexatek/widgets/tools/custom_header_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -6,6 +7,7 @@ import '../models/module.dart';
 import '../models/user.dart';
 import '../providers/user_provider.dart';
 import '../widgets/custom_object_list_widget.dart';
+import '../widgets/tools/custom_loading_screen.dart';
 
 class ModuleScreen extends StatefulWidget {
   const ModuleScreen({Key? key}) : super(key: key);
@@ -18,6 +20,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
   late UserProvider userProvider;
   late User myUser;
   late List<Module> listObj = <Module>[];
+  late bool _isLoadingUser = true;
 
   @override
   void initState() {
@@ -31,6 +34,7 @@ class _ModuleScreenState extends State<ModuleScreen> {
     if (userProvider.isUser == true) {
       setState(() {
         listObj = userProvider.listModule;
+        _isLoadingUser = false;
       });
     }
   }
@@ -38,7 +42,10 @@ class _ModuleScreenState extends State<ModuleScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    if (_isLoadingUser == true) {
+      return const CustomLoadingScreen();
+    } else {
+      return Scaffold(
         appBar: AppBar(
           centerTitle: true,
           title: const Text("Modules"),
@@ -50,18 +57,16 @@ class _ModuleScreenState extends State<ModuleScreen> {
               padding: const EdgeInsets.symmetric(vertical: 20),
               width: double.infinity,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  const Text("Select a module :", style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: secondaryColor
-                  ),),
+                  const CustomHeader(toDisplay: "Select a module :"),
                   CustomObjectListWidget(listObj: listObj),
                 ],
               ),
             ),
           ),
         )
-    );
+      );
+    }
   }
 }

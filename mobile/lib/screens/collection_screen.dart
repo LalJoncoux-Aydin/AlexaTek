@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/user.dart';
 import '../providers/user_provider.dart';
+import '../widgets/tools/custom_header_widget.dart';
+import '../widgets/tools/custom_loading_screen.dart';
 
 class CollectionScreen extends StatefulWidget {
   const CollectionScreen({Key? key}) : super(key: key);
@@ -16,6 +18,7 @@ class _CollectionScreenState extends State<CollectionScreen> {
   late UserProvider userProvider;
   late User myUser;
   late List<CollectionObjects> listColl = <CollectionObjects>[];
+  late bool _isLoadingUser = true;
 
   @override
   void initState() {
@@ -30,32 +33,37 @@ class _CollectionScreenState extends State<CollectionScreen> {
       setState(() {
         myUser = userProvider.getUser;
         listColl = myUser.listCollection!;
+        _isLoadingUser = false;
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        title: const Text("Collection"),
-        automaticallyImplyLeading: false,
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-            width: double.infinity,
-            child: Column(
-              children: <Widget>[
-                Text("Your collections"),
-                CustomCollectionListWidget(listCollection: listColl),
-              ],
+    if (_isLoadingUser == true) {
+      return const CustomLoadingScreen();
+    } else {
+      return Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text("Collection"),
+          automaticallyImplyLeading: false,
+        ),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              width: double.infinity,
+              child: Column(
+                children: <Widget>[
+                  const CustomHeader(toDisplay: "Select a collection :"),
+                  CustomCollectionListWidget(listCollection: listColl),
+                ],
+              ),
             ),
           ),
         ),
-      ),
-    );
+      );
+    }
   }
 }

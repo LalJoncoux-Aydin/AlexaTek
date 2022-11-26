@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../models/collection_objects.dart';
 import '../models/user.dart';
 import '../providers/user_provider.dart';
+import '../widgets/tools/custom_header_widget.dart';
 import '../widgets/tools/custom_loading_screen.dart';
 
 class FeedScreen extends StatefulWidget {
@@ -33,12 +34,14 @@ class _FeedScreenState extends State<FeedScreen> {
   void setupUser() async {
     userProvider = Provider.of(context, listen: false);
     await userProvider.refreshUser();
+    await userProvider.refreshModule();
     if (userProvider.isUser == true) {
       setState(() {
         myUser = userProvider.getUser;
         name = myUser.name;
         surname = myUser.surname;
         listColl = myUser.listCollection!;
+        listObj = userProvider.listModule;
         _isLoadingUser = false;
       });
     }
@@ -54,6 +57,15 @@ class _FeedScreenState extends State<FeedScreen> {
           centerTitle: true,
           title: const Text("Home"),
           automaticallyImplyLeading: false,
+          actions: [
+            Container(
+              padding: const EdgeInsets.only(right: 15),
+              child: GestureDetector(
+                onTap: () {},
+                child: Icon(Icons.logout),
+              )
+            )
+          ],
         ),
         body: SafeArea(
           child: SingleChildScrollView(
@@ -62,8 +74,8 @@ class _FeedScreenState extends State<FeedScreen> {
               width: double.infinity,
               child: Column(
                 children: <Widget>[
-                  Text("Welcome $name $surname !"),
-                 // CustomObjectListWidget(listObj: listObj),
+                  CustomHeader(toDisplay: "Welcome $name $surname !"),
+                  CustomObjectListWidget(listObj: listObj),
                   CustomCollectionListWidget(listCollection: listColl),
                 ],
               ),
