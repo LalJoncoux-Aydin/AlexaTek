@@ -1,4 +1,3 @@
-import 'package:alexatek/utils/colors.dart';
 import 'package:alexatek/widgets/tools/custom_header_widget.dart';
 import 'package:flutter/material.dart';
 

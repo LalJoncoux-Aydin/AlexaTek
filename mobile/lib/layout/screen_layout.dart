@@ -1,4 +1,3 @@
-import 'package:alexatek/screens/auth/login_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:alexatek/utils/global_variables.dart';

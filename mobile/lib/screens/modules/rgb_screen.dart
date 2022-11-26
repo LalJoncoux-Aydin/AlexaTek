@@ -9,7 +9,6 @@ import '../../providers/user_provider.dart';
 import '../../utils/colors.dart';
 import '../../widgets/tools/custom_loading_screen.dart';
 import '../../widgets/tools/custom_text_form_field_widget.dart';
-import '../module_screen.dart';
 
 class RgbScreen extends StatefulWidget {
   const RgbScreen({Key? key, required this.module}) : super(key: key);

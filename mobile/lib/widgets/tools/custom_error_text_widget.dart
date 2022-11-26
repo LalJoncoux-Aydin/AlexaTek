@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/global_variables.dart';
-
 class CustomErrorText extends StatelessWidget {
   const CustomErrorText({Key? key, required this.displayStr}) : super(key: key);
 
