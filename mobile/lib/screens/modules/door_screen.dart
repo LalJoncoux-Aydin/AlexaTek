@@ -32,6 +32,7 @@ class _DoorScreenState extends State<DoorScreen> {
   }
 
   void setupUser() async {
+    isOn = widget.module.value == "180" ? false : true;
     userProvider = Provider.of(context, listen: false);
     await userProvider.refreshUser();
     if (userProvider.isUser == true) {

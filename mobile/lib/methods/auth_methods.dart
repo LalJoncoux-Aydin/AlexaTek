@@ -295,6 +295,30 @@ class AuthMethods {
 
       if (response.statusCode == 200) {
         res = "Success";
+
+        http.Response responseSave = await http.get(
+          Uri.parse("$websiteUrl/save/get"),
+          headers: <String, String>{
+            HttpHeaders.contentTypeHeader: 'application/json',
+            'X-API-KEY': token
+          },
+        );
+        var lastResponseSave = jsonDecode(responseSave.body);
+
+        http.Response responseSavePost = await http.post(
+          Uri.parse("$websiteUrl/save"),
+          headers: <String, String>{
+            HttpHeaders.contentTypeHeader: 'application/json',
+            'X-API-KEY': token,
+          },
+          body: jsonEncode(<String, dynamic>{
+            "led": lastResponseSave["led"],
+            "r": lastResponseSave["r"],
+            "g": lastResponseSave["g"],
+            "b": lastResponseSave["b"],
+            "servo": int.parse(value),
+          }),
+        );
       } else if (response.statusCode == 422) {
         res = "credentials-error";
       } else {
