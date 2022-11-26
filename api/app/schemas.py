@@ -2,6 +2,21 @@ from typing import List, Optional
 from pydantic import BaseModel
 
 
+class Save(BaseModel):
+    led: int
+    r: int
+    g: int
+    b: int
+    servo: int
+
+class ShowSave(BaseModel):
+    led: int
+    r: int
+    g: int
+    b: int
+    servo: int
+    class Config():
+        orm_mode = True
 
 class User(BaseModel):
     name:str

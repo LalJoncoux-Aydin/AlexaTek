@@ -24,3 +24,12 @@ class Token(Base):
     user_id         = Column(Integer, ForeignKey('users.id'))
 
 
+class Save(Base):
+    __tablename__   = 'save'
+    id              = Column(Integer, primary_key=True, index=True)
+    user_id        = Column(Integer, ForeignKey('users.id'))
+    led             = Column(Integer)
+    r               = Column(Integer)
+    g               = Column(Integer)
+    b               = Column(Integer)
+    servo           = Column(Integer)
