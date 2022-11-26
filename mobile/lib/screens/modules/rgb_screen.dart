@@ -49,9 +49,6 @@ class _RgbScreenState extends State<RgbScreen> {
   }
 
   void setupUser() async {
-    print(widget.module.value!.split(',')[0]);
-    print(widget.module.value!.split(',')[1]);
-    print(widget.module.value!.split(',')[2]);
     isColor = Color.fromRGBO(int.parse(widget.module.value!.split(',')[0]), int.parse(widget.module.value!.split(',')[1]), int.parse(widget.module.value!.split(',')[2]), 1.0);
     userProvider = Provider.of(context, listen: false);
     await userProvider.refreshUser();
